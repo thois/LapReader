@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-package fi.helsinki.cs.thois.lapreader.data;
+package fi.helsinki.cs.thois.lapreader.model;
 
 /**
  *

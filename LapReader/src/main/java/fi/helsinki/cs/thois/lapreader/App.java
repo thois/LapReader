@@ -6,7 +6,7 @@ import com.avaje.ebean.Transaction;
 import com.avaje.ebean.config.DataSourceConfig;
 import com.avaje.ebean.config.ServerConfig;
 import com.avaje.ebean.config.dbplatform.SQLitePlatform;
-import fi.helsinki.cs.thois.lapreader.data.TestDay;
+import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
 
 /**

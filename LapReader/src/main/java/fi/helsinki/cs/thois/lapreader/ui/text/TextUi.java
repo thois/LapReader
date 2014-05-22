@@ -7,7 +7,7 @@
 package fi.helsinki.cs.thois.lapreader.ui.text;
 
 import com.avaje.ebean.EbeanServer;
-import fi.helsinki.cs.thois.lapreader.data.*;
+import fi.helsinki.cs.thois.lapreader.model.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,7 +56,7 @@ public class TextUi {
     }
     
     private void selectDay() {
-        List<TestDay> days = (List<TestDay>) server.find(TestDay.class);
+        List<TestDay> days = server.find(TestDay.class).findList();
         printDays(days);
 //        int option;
 //        while (true) {
