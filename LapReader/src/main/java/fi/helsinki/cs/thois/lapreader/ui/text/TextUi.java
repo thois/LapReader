@@ -8,6 +8,7 @@ package fi.helsinki.cs.thois.lapreader.ui.text;
 
 import com.avaje.ebean.EbeanServer;
 import fi.helsinki.cs.thois.lapreader.model.*;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,20 +32,15 @@ public class TextUi {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         TestDay createdTestDay;
         while(true) {
-            System.out.print("Anna päivämäärä muodossa dd.MM.yyyy: ");
-            String dateString = scanner.nextLine();
-            if (dateString.isEmpty()) {
-                createdTestDay = new TestDay();
-                break;
-            }
+            System.out.print("Anna päivämäärä muodossa dd.MM.yyyy (" + df.format(new Date()) + "): ");
+            
             try {
-                createdTestDay = new TestDay(df.parse(dateString));
+                createdTestDay = new TestDay(scanner.nextLine());
                 break;
             } catch (ParseException e) {
                     System.out.println("Virheellien päivä!");
             }
         }
-        System.out.println(createdTestDay);
         server.save(createdTestDay);
     }
     

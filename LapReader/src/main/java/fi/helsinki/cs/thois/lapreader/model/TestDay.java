@@ -13,20 +13,18 @@ package fi.helsinki.cs.thois.lapreader.model;
  */
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-//import javax.persistence.Temporal;
+import javax.persistence.*;
+
 
 @Entity
 public class TestDay {
-    
-    
-    //@Temporal(javax.persistence.TemporalType.DATE)
-    private String day;
+
+    @Column(columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date day;
     
     private String conditions = "";
     
@@ -36,13 +34,21 @@ public class TestDay {
     
     
     public TestDay() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        day = df.format(new Date());
+        day = new Date();
     }
     
-    public TestDay(Date date) {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        this.day = df.format(date);
+    public TestDay(Date day) {
+        this.day = day;
+    }
+    
+    
+    public TestDay(String date) throws ParseException {
+        if (date.isEmpty()) {
+            day = new Date();
+        } else {
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            day = df.parse(date);
+        }
     }
     
     public void setId(int id) {
@@ -53,11 +59,11 @@ public class TestDay {
         return id;
     }
     
-    public void setDay(String date) {
-        this.day = date;
+    public void setDay(Date day) {
+        this.day = day;
     }
     
-    public String getDay() {
+    public Date getDay() {
         return day;
     }
     
@@ -71,8 +77,7 @@ public class TestDay {
     
     @Override
     public String toString() {
-        //DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        //return df.format(day);
-        return day;
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        return df.format(day);
     }
 }
