@@ -38,12 +38,13 @@ public class TextUi {
                 break;
             }
             try {
-                createdTestDay = new TestDay(df.parse(scanner.nextLine()));
+                createdTestDay = new TestDay(df.parse(dateString));
                 break;
             } catch (ParseException e) {
                     System.out.println("Virheellien päivä!");
             }
         }
+        System.out.println(createdTestDay);
         server.save(createdTestDay);
     }
     

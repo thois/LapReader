@@ -16,43 +16,49 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
+//import javax.persistence.Temporal;
 
 @Entity
 public class TestDay {
     
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date testDate;
+    //@Temporal(javax.persistence.TemporalType.DATE)
+    private String day;
     
-    private String conditions;
+    private String conditions = "";
     
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
     
     public TestDay() {
-        testDate = new Date();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        day = df.format(new Date());
     }
     
     public TestDay(Date date) {
-        this.testDate = date;
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        this.day = df.format(date);
     }
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
-    public void setDate(Date date) {
-        this.testDate = date;
+    public void setDay(String date) {
+        this.day = date;
     }
     
-    public Date getDate(Date date) {
-        return date;
+    public String getDay() {
+        return day;
     }
     
     public void setConditions(String conditions) {
@@ -65,7 +71,8 @@ public class TestDay {
     
     @Override
     public String toString() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        return df.format(testDate);
+        //DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        //return df.format(day);
+        return day;
     }
 }
