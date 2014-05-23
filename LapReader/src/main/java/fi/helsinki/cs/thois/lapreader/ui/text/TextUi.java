@@ -24,6 +24,9 @@ public class TextUi {
     private TestDay currentDay;
     EbeanServer server;
     
+    public TextUi() {
+    }
+    
     public TextUi(EbeanServer server) {
     this.server = server;
 }

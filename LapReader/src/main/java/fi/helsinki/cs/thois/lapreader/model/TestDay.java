@@ -15,7 +15,9 @@ package fi.helsinki.cs.thois.lapreader.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 
@@ -27,6 +29,9 @@ public class TestDay {
     private Date day;
     
     private String conditions = "";
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Heat> heats = new ArrayList<Heat>();
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +78,24 @@ public class TestDay {
     
     public String getConditions() {
         return conditions;
+    }
+
+    public List<Heat> getHeats() {
+        return heats;
+    }
+
+    public void setHeats(List<Heat> heats) {
+        this.heats = heats;
+    }
+    
+    public void addHeat(Heat h) {
+        heats.add(h);
+        h.setTestDay(this);
+    }
+    
+    public void addHeat(String laps, Date time) {
+        Heat heat = new Heat(time);
+        heat.addLaps(laps);
     }
     
     @Override

@@ -8,7 +8,7 @@ import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.text.ParseException;
 import java.util.Date;
 import org.junit.Test;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -26,6 +26,6 @@ public class TestDayTest {
     public void testToString() throws ParseException {
         String date = "12.12.2012";
         TestDay testDay = new TestDay(date);
-        assert(testDay.toString().equals(date));
+        assertEquals(testDay.toString(), date);
     }
 }
