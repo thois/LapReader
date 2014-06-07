@@ -25,9 +25,6 @@ public class TextUi {
     private TestDay currentDay;
     private Controller controller;
     
-    public TextUi() {
-    }
-    
     public TextUi(Controller controller) {
     this.controller = controller;
 }
@@ -60,17 +57,23 @@ public class TextUi {
             return;
         }
         printDays(days);
-//        int option;
-//        while (true) {
-//            System.out.print("Valitse päivä: ");
-//            
-//        }
+        int option;
+        while (true) {
+            System.out.print("Valitse päivä: ");
+            try {
+            option = Integer.parseInt(scanner.nextLine());
+            break;
+            } catch (NumberFormatException e) {
+                System.out.println("Virheellinen valinta.");
+            }
+        }
+        currentDay = days.get(option-1);
     }
     
     public void mainMenu() {
 
         while(true) {
-            
+            System.out.println("Valittu päivä: " + currentDay);
             System.out.println("Toiminnot:");
             System.out.println("1. Lisää päivä");
             System.out.println("2. Valitse päivä");
@@ -96,7 +99,7 @@ public class TextUi {
                         break;
                 }
             } catch (SQLException ex) {
-                System.out.println("Tietokantavirhe!");
+                System.out.println("Tietokantavirhe! Yritä uudelleen.");
             }
         }
     }
