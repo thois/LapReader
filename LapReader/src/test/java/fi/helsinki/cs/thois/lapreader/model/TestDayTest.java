@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.helsinki.cs.thois.lapreader;
+package fi.helsinki.cs.thois.lapreader.model;
 
-import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.text.ParseException;
 import java.util.Date;
 import org.junit.Test;

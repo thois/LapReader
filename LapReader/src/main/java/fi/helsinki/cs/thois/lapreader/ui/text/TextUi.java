@@ -6,7 +6,7 @@
 
 package fi.helsinki.cs.thois.lapreader.ui.text;
 
-import fi.helsinki.cs.thois.lapreader.Controller;
+import fi.helsinki.cs.thois.lapreader.controller.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
 import java.sql.SQLException;
 import java.util.Date;
