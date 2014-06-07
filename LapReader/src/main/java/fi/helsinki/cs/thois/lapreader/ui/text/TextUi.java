@@ -6,8 +6,9 @@
 
 package fi.helsinki.cs.thois.lapreader.ui.text;
 
-import com.avaje.ebean.EbeanServer;
+import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,29 +23,26 @@ import java.util.Scanner;
 public class TextUi {
     Scanner scanner = new Scanner(System.in);    
     private TestDay currentDay;
-    EbeanServer server;
+    private Controller controller;
     
     public TextUi() {
     }
     
-    public TextUi(EbeanServer server) {
-    this.server = server;
+    public TextUi(Controller controller) {
+    this.controller = controller;
 }
     
-    private void addDay() {
+    private void addDay() throws SQLException {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        TestDay createdTestDay;
         while(true) {
             System.out.print("Anna päivämäärä muodossa dd.MM.yyyy (" + df.format(new Date()) + "): ");
-            
             try {
-                createdTestDay = new TestDay(scanner.nextLine());
+                controller.addDay(scanner.nextLine());
                 break;
             } catch (ParseException e) {
                     System.out.println("Virheellien päivä!");
             }
         }
-        server.save(createdTestDay);
     }
     
     private void printDays(List<TestDay> days) {
@@ -54,8 +52,13 @@ public class TextUi {
         }
     }
     
-    private void selectDay() {
-        List<TestDay> days = server.find(TestDay.class).findList();
+    private void selectDay() throws SQLException {
+        List<TestDay> days = controller.getDays();
+        if (days == null || days.isEmpty()) {
+            System.out.println("Ei päiviä tietokannassa. Luo ensin päivä.");
+            addDay();
+            return;
+        }
         printDays(days);
 //        int option;
 //        while (true) {
@@ -67,6 +70,7 @@ public class TextUi {
     public void mainMenu() {
 
         while(true) {
+            
             System.out.println("Toiminnot:");
             System.out.println("1. Lisää päivä");
             System.out.println("2. Valitse päivä");
@@ -79,16 +83,20 @@ public class TextUi {
                 System.out.println("Virheellinen valinta.");
                 continue;
             }
-            switch (option) {
-                case 1: addDay();
-                    break;
-                case 2: selectDay();
-                    break;
-                case 3:
-                    return;
-                default:
-                    System.out.println("Virheellinen valinta.");
-                    break;
+            try {
+                switch (option) {
+                    case 1: addDay();
+                        break;
+                    case 2: selectDay();
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        System.out.println("Virheellinen valinta.");
+                        break;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Tietokantavirhe!");
             }
         }
     }

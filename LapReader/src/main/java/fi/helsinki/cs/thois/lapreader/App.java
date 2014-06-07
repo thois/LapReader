@@ -1,13 +1,7 @@
 package fi.helsinki.cs.thois.lapreader;
 
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.EbeanServerFactory;
-import com.avaje.ebean.Transaction;
-import com.avaje.ebean.config.DataSourceConfig;
-import com.avaje.ebean.config.ServerConfig;
-import com.avaje.ebean.config.dbplatform.SQLitePlatform;
-import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
+import java.sql.SQLException;
 
 /**
  * Hello world!
@@ -16,37 +10,19 @@ import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
 public class App 
 {
     
-   private static EbeanServer initDb(boolean dropAndCreateDatabase) {
-        ServerConfig config = new ServerConfig();
-        config.setName("LapDb");
 
-        DataSourceConfig sqLite = new DataSourceConfig();
-        sqLite.setDriver("org.sqlite.JDBC");
-        sqLite.setUsername("nlindval");
-        sqLite.setPassword("nlindval");
-        sqLite.setUrl("jdbc:sqlite:laps.db");
-        config.setDataSourceConfig(sqLite);
-        config.setDatabasePlatform(new SQLitePlatform());
-        config.getDataSourceConfig().setIsolationLevel(Transaction.READ_UNCOMMITTED);
- 
-        if (dropAndCreateDatabase) {
-            config.setDdlGenerate(true);
-            config.setDdlRun(true);
-        }
-
-        config.setDefaultServer(false);
-        config.setRegister(false);
-
-        config.addClass(TestDay.class);
-
-        return EbeanServerFactory.create(config);
-    }
         
     public static void main( String[] args )
     {
-        EbeanServer server = initDb(true);
-        TextUi ui = new TextUi(server);
-        
+        String databaseUrl = "jdbc:h2:mem:account";
+        Controller controller;
+        try {
+            controller = new Controller(databaseUrl);        TextUi ui = new TextUi(controller);
+        } catch (SQLException ex) {
+            System.out.println("Virhe tietokannan " + databaseUrl + " avaamisessa");
+            return;
+        }
+        TextUi ui = new TextUi(controller);
         ui.mainMenu();
         
     }
