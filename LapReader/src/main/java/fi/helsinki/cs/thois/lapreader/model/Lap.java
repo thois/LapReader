@@ -4,6 +4,7 @@
  */
 package fi.helsinki.cs.thois.lapreader.model;
 
+import com.j256.ormlite.field.DatabaseField;
 import javax.persistence.*;
 /**
  *
@@ -12,10 +13,12 @@ import javax.persistence.*;
 @Entity
 public class Lap extends Model {
     
-    //Time in microseconds
+    //Time in 0,1 milliseconds
+    @Column
     int time;
     
     @ManyToOne
+    @DatabaseField(foreign=true)
     Heat heat;
     
     @Id
@@ -26,8 +29,9 @@ public class Lap extends Model {
         
     }
     
-    public Lap(int time) {
+    public Lap(int time, Heat heat) {
         this.time = time;
+        this.heat = heat;
     }
     
     public int getTime() {
@@ -54,6 +58,16 @@ public class Lap extends Model {
         this.id = id;
     }
     
+    public int seconds() {
+        return time/1000;
+    }
     
+    public int thousands() {
+        return time%1000;
+    }
+    
+    public String toString() {
+        return seconds() + "." + thousands();
+    }
     
 }

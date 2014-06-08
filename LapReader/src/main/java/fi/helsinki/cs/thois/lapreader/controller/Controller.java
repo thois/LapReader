@@ -71,23 +71,26 @@ public class Controller {
         DateFormat df = new SimpleDateFormat("HH.mm");
         Heat h;
         if (time.isEmpty()||time == null)
-            h = new Heat();
+            h = new Heat(day);
         else
-            h = new Heat(df.parse(time));
+            h = new Heat(df.parse(time), day);
         List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
         List<Integer> laps = OrionParser.parse(lines.toArray(new String[lines.size()]));
         heatDao.create(h);
         for (Integer lap: laps) {
-            Lap l = new Lap(lap);
+            Lap l = new Lap(lap, h);
             lapDao.create(l);
         }
-        day.addHeat(h);
-        testDayDao.update(day);
     }
     
     public ForeignCollection<Heat> getHeats(TestDay day) throws SQLException {
         testDayDao.refresh(day);
         return day.getHeats();
+    }
+    
+    public ForeignCollection<Lap> getLaps(Heat h) throws SQLException {
+        heatDao.refresh(h);
+        return h.getLaps();
     }
     
 }

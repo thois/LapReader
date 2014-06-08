@@ -102,8 +102,9 @@ public class TextUi {
         return option;
     }
     
-    private void printHeat(Heat h) {
-        //TODO
+    private void printHeat(Heat h) throws SQLException {
+        Lap[] laps = controller.getLaps(h).toArray(new Lap[0]);
+        printModels(laps);
     }
     
     public void showHeat() throws SQLException {

@@ -4,6 +4,11 @@
  */
 package fi.helsinki.cs.thois.lapreader.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +26,13 @@ public class Heat extends Model {
     private Date time;
     
     @ManyToOne
+    @DatabaseField(foreign=true)
     private TestDay testDay;
     
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Lap> laps = new ArrayList<>();
+    @ForeignCollectionField(eager = false, orderColumnName="time")
+    private ForeignCollection<Lap> laps;
+    
+    private Result result;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +42,17 @@ public class Heat extends Model {
         time = new Date();
     }
     
-    public Heat(Date time) {
+    public Heat(TestDay testDay) {
+        time = new Date();
+        this.testDay = testDay;
+    }
+    
+    public Heat(Date time, TestDay testDay) {
         if (time==null) {
             time = new Date();
         }
         this.time = time;
+        this.testDay = testDay;
     }
     
     public Date getTime() {
@@ -57,11 +71,11 @@ public class Heat extends Model {
         this.testDay = testDay;
     }
 
-    public List<Lap> getLaps() {
+    public ForeignCollection<Lap> getLaps() {
         return laps;
     }
 
-    public void setLaps(List<Lap> laps) {
+    public void setLaps(ForeignCollection<Lap> laps) {
         this.laps = laps;
     }
 
@@ -75,7 +89,12 @@ public class Heat extends Model {
     
     public void addLap(Lap lap) {
         laps.add(lap);
-        lap.setHeat(this);
+    }
+    
+    @Override
+    public String toString() {
+        DateFormat df = new SimpleDateFormat("HH.mm");
+        return df.format(time) + ": " + result;
     }
     
 }

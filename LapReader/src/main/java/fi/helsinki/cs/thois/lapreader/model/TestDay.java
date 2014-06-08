@@ -92,7 +92,6 @@ public class TestDay extends Model {
     
     public void addHeat(Heat h) {
         heats.add(h);
-        h.setTestDay(this);
     }
     
     @Override
