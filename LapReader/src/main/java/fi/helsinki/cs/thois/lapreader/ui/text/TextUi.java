@@ -8,6 +8,7 @@ package fi.helsinki.cs.thois.lapreader.ui.text;
 
 import fi.helsinki.cs.thois.lapreader.controller.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.text.DateFormat;
@@ -62,12 +63,39 @@ public class TextUi {
             System.out.print("Valitse päivä: ");
             try {
             option = Integer.parseInt(scanner.nextLine());
+            if (option > 0 && option <= days.size())
+                break;
             break;
             } catch (NumberFormatException e) {
                 System.out.println("Virheellinen valinta.");
             }
         }
         currentDay = days.get(option-1);
+    }
+    
+    public void addHeat() throws SQLException {
+        if (currentDay == null) {
+            System.out.println("Ei valittua päivää!");
+            return;
+        }
+        DateFormat df = new SimpleDateFormat("HH.mm");
+        while(true) {
+            System.out.print("Anna aika muodossa HH.mm (" + df.format(new Date()) + "): ");
+            try {
+                String time = scanner.nextLine();
+                System.out.println("Anna tiedostonnimi: ");
+                try {
+                    controller.addHeat(currentDay, scanner.nextLine(), time);
+                } catch (IOException e) {
+                    System.out.println("Ongelma tiedoston lukemisessa!");
+                }
+                break;
+            } catch (ParseException e) {
+                    System.out.println("Virheellien aika!");
+                    e.printStackTrace();
+            }
+        }
+        
     }
     
     public void mainMenu() {
@@ -77,7 +105,8 @@ public class TextUi {
             System.out.println("Toiminnot:");
             System.out.println("1. Lisää päivä");
             System.out.println("2. Valitse päivä");
-            System.out.println("3. Lopeta");
+            System.out.println("3. Lisää heatti");
+            System.out.println("4. Lopeta");
             System.out.print("Valitse toiminto: ");
             int option;
             try {
@@ -92,7 +121,9 @@ public class TextUi {
                         break;
                     case 2: selectDay();
                         break;
-                    case 3:
+                    case 3: addHeat();
+                        break;
+                    case 4:
                         return;
                     default:
                         System.out.println("Virheellinen valinta.");

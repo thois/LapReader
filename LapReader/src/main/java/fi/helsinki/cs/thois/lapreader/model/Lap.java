@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Lap {
     
-    //Time in milliseconds
+    //Time in microseconds
     int time;
     
     @ManyToOne
@@ -22,6 +22,10 @@ public class Lap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    public Lap() {
+        
+    }
+    
     public Lap(int time) {
         this.time = time;
     }

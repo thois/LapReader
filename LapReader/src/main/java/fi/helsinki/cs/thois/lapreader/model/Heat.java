@@ -4,12 +4,10 @@
  */
 package fi.helsinki.cs.thois.lapreader.model;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import fi.helsinki.cs.thois.lapreader.parser.*;
 
 /**
  *
@@ -80,9 +78,4 @@ public class Heat {
         lap.setHeat(this);
     }
     
-    public void addLaps(String laps) {
-        List<Integer> newLaps = OrionParser.parse(laps);
-        for (int l:newLaps)
-            addLap(new Lap(l));
-    }
 }

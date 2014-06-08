@@ -93,11 +93,6 @@ public class TestDay {
         h.setTestDay(this);
     }
     
-    public void addHeat(String laps, Date time) {
-        Heat heat = new Heat(time);
-        heat.addLaps(laps);
-    }
-    
     @Override
     public String toString() {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
