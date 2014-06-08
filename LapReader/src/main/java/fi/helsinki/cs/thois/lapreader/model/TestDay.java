@@ -31,7 +31,7 @@ public class TestDay {
     private String conditions = "";
     
     @OneToMany(cascade=CascadeType.ALL)
-    private List<Heat> heats = new ArrayList<Heat>();
+    private List<Heat> heats = new ArrayList<>();
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

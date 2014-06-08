@@ -10,9 +10,7 @@ import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
