@@ -43,6 +43,14 @@ public class Lap extends Model {
         return time;
     }
 
+    public void setLapNumber(int lapNumber) {
+        this.lapNumber = lapNumber;
+    }
+
+    public int getLapNumber() {
+        return lapNumber;
+    }
+
     public void setTime(int time) {
         this.time = time;
     }
@@ -71,6 +79,7 @@ public class Lap extends Model {
         return time%1000;
     }
     
+    @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.000");
         return df.format((double)time/1000);

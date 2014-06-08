@@ -6,7 +6,6 @@
 
 package fi.helsinki.cs.thois.lapreader.parser;
 
-import fi.helsinki.cs.thois.lapreader.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.ParseException;

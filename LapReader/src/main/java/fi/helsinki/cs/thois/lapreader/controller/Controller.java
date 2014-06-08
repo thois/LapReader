@@ -45,15 +45,17 @@ public class Controller {
             DaoManager.createDao(connectionSource, Lap.class);
         createTablesIfNotExists();
     }
+
+    public void dropTables() throws SQLException {
+        TableUtils.dropTable(connectionSource, TestDay.class, true);
+        TableUtils.dropTable(connectionSource, Heat.class, true);
+        TableUtils.dropTable(connectionSource, Lap.class, true);
+    }
     
     private void createTablesIfNotExists() throws SQLException {
         TableUtils.createTableIfNotExists(connectionSource, TestDay.class);
         TableUtils.createTableIfNotExists(connectionSource, Heat.class);
         TableUtils.createTableIfNotExists(connectionSource, Lap.class);
-    }
-    
-    public Dao<TestDay, String> getTestDayDao() {
-        return testDayDao;
     }
     
     public List<TestDay> getDays() throws SQLException {
@@ -67,15 +69,22 @@ public class Controller {
         return d;
     }
     
-    public void addHeat(TestDay day, String filename, String time) throws ParseException, IOException, SQLException {
-        DateFormat df = new SimpleDateFormat("HH.mm");
+    public void addHeatFromFile(TestDay day, String filename, String time)
+            throws IOException, ParseException, SQLException {
+        List<String> lines = Files.readAllLines(Paths.get(filename),
+                StandardCharsets.UTF_8);
+        addHeat(day, lines.toArray(new String[0]), time);
+    }
+    
+    public void addHeat(TestDay day, String[] lines, String time) throws
+            ParseException, SQLException {
+        DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h;
         if (time.isEmpty()||time == null)
             h = new Heat(day);
         else
             h = new Heat(df.parse(time), day);
-        List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
-        List<Integer> laps = OrionParser.parse(lines.toArray(new String[lines.size()]));
+        List<Integer> laps = OrionParser.parse(lines);
         heatDao.create(h);
         for (int i = 0; i < laps.size(); i++) {
             Lap l = new Lap(laps.get(i), i+1, h);

@@ -45,12 +45,15 @@ public class TestDay extends Model {
     }
     
     public TestDay(Date day) {
+        if (day == null) {
+            day = new Date();
+        }
         this.day = day;
     }
     
     
     public TestDay(String date) throws ParseException {
-        if (date.isEmpty()) {
+        if (date == null || date.isEmpty()) {
             day = new Date();
         } else {
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -88,10 +91,6 @@ public class TestDay extends Model {
 
     public void setHeats(ForeignCollection<Heat> heats) {
         this.heats = heats;
-    }
-    
-    public void addHeat(Heat h) {
-        heats.add(h);
     }
     
     @Override

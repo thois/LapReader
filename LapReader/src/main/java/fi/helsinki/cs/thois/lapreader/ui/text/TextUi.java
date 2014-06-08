@@ -87,7 +87,7 @@ public class TextUi {
                 String time = scanner.nextLine();
                 System.out.print("Anna tiedostonnimi: ");
                 try {
-                    controller.addHeat(currentDay, scanner.nextLine(), time);
+                    controller.addHeatFromFile(currentDay, scanner.nextLine(), time);
                 } catch (IOException e) {
                     System.out.println("Ongelma tiedoston lukemisessa!");
                 }
