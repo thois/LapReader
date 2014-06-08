@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 /**
- *
- * @author niko
+ * Base class for inheriting all Models to keep different models in a collection
  */
 public abstract class Model {
     

@@ -12,7 +12,7 @@ Lisäoptiona ohjelma voisi tallentaa myös ajohetken säätiedot esim. käyttäm
 * Kierrosaikojen syöttäminen järjestelmään tekstitiedostosta
 * (optio) Kierrosaikojen lukeminen ajanottolaitteesta (lapperi) sarjayhteydellä
 * (optio) Kierrosaikojen noutaminen pilvipalvelusta
-* Säätömuutosten tallentaminen ajokerran yhteyteen
+* Säätömuutosten tallentaminen tekstimuodossa ajokerran yhteyteen
 * Vanhojen ajokertojen kierrosaikojen selaus
 * Parhaimpien kierrosaikojen näyttäminen
 * Haku säätömuutoksista

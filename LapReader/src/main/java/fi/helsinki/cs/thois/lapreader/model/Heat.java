@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 import com.j256.ormlite.dao.ForeignCollection;
@@ -15,16 +11,21 @@ import java.util.List;
 import javax.persistence.*;
 
 /**
- *
- * @author niko
+ * Database model for one Heat (one constant run)
  */
 @Entity
 public class Heat extends Model {
     
+    /**
+     *  Starting time
+     */
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
     
+    /**
+     * Parent
+     */
     @ManyToOne
     @DatabaseField(foreign=true)
     private TestDay testDay;

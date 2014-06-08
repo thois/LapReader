@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.dao;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
@@ -9,8 +5,7 @@ import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.sql.SQLException;
 
 /**
- *
- * Custom Dao for TestDay for later implementation
+ * Custom Dao for TestDay for later implementation to get cleaner code
  */
 public class TestDayDao<ID> extends BaseDaoImpl<TestDay, ID> {
     

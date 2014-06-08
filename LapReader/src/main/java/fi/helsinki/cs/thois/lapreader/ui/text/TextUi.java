@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fi.helsinki.cs.thois.lapreader.ui.text;
 
-import fi.helsinki.cs.thois.lapreader.controller.Controller;
+import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.io.IOException;
@@ -19,8 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
- * @author nlindval
+ * Contains text-mode UI for the app
  */
 public class TextUi {
     Scanner scanner = new Scanner(System.in);    

@@ -1,12 +1,10 @@
 package fi.helsinki.cs.thois.lapreader;
 
-import fi.helsinki.cs.thois.lapreader.controller.Controller;
 import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
 import java.sql.SQLException;
 
 /**
- * Applications main class that includes 
- *
+ * Application's main class that creates controller for main logic and opens UI
  */
 public class App 
 {

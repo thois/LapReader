@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 /**
- *
- * @author niko
+ *Database model for Cars for later implementation
  */
 class Car {
     

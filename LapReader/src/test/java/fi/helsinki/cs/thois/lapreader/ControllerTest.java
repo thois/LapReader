@@ -1,7 +1,6 @@
 package fi.helsinki.cs.thois.lapreader;
 
 import com.j256.ormlite.dao.ForeignCollection;
-import fi.helsinki.cs.thois.lapreader.controller.Controller;
 import fi.helsinki.cs.thois.lapreader.model.Heat;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.sql.SQLException;

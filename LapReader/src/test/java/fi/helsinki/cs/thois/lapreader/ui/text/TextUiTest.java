@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.ui.text;
 
-import fi.helsinki.cs.thois.lapreader.controller.Controller;
+import fi.helsinki.cs.thois.lapreader.Controller;
 import java.sql.SQLException;
 import org.junit.Test;
 import junit.framework.Assert;

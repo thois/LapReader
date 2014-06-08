@@ -1,26 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import java.text.DecimalFormat;
 import javax.persistence.*;
 /**
- *
- * @author niko
+ * Database model for one lap.
  */
 @Entity
 public class Lap extends Model {
-    
-    //Time in 0,1 milliseconds
+    /**
+     * Laptime in 0,1 milliseconds
+     */
     @Column
     private int time;
     
+    /**
+     * Number for ordering laps in a heat. Starts from 1
+     */
     @Column
     private int lapNumber;
     
+    /**
+     * Parent
+     */
     @ManyToOne
     @DatabaseField(foreign=true)
     private Heat heat;
@@ -71,10 +73,18 @@ public class Lap extends Model {
         this.id = id;
     }
     
+    /**
+     * Get full seconds from laptime for easier formatting
+     * @return full seconds
+     */
     public int seconds() {
         return time/1000;
     }
     
+    /**
+     * Get thousands of seconds not including full seconds
+     * @return thousands of seconds
+     */
     public int thousands() {
         return time%1000;
     }

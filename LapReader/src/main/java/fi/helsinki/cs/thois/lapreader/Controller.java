@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.helsinki.cs.thois.lapreader.controller;
+package fi.helsinki.cs.thois.lapreader;
 
 import com.j256.ormlite.dao.*;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
