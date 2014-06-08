@@ -12,11 +12,16 @@ import java.text.ParseException;
 
 
 /**
- *
- * @author niko
+ * Class parses laptimes from Strings dumped from Orion Pro LCS -device
  */
 public class OrionParser {
     
+    /**
+     * 
+     * @param   s   Laptime in form "mm:ss.ss" 
+     * @return  Laptime in thousands of seconds
+     * @throws ParseException 
+     */
     public static int parseTime(String s) throws ParseException {
             String[] tbl = s.split("m");
             if (tbl.length < 2)
@@ -30,7 +35,12 @@ public class OrionParser {
             int time = 60000*minutes+1000*seconds+milliseconds*10;
             return time;
     }
-    
+    /**
+     * Parses array of strings to integers
+     * @param str   Table of strings to be parsed
+     * @return  Array of laptimes in thousands of seconds
+     * @throws ParseException 
+     */
     public static List<Integer> parse(String[] str) throws ParseException {
         ArrayList<Integer> laps = new ArrayList<>();
         for (String s:str) {

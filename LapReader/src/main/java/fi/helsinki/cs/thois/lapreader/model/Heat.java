@@ -40,12 +40,7 @@ public class Heat extends Model {
 
     public Heat() {
         time = new Date();
-    }
-    
-    public Heat(TestDay testDay) {
-        time = new Date();
-        this.testDay = testDay;
-    }
+    }  
     
     public Heat(Date time, TestDay testDay) {
         if (time==null) {

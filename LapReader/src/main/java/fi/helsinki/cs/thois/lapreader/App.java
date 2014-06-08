@@ -5,7 +5,7 @@ import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
 import java.sql.SQLException;
 
 /**
- * Hello world!
+ * Applications main class that includes 
  *
  */
 public class App 

@@ -44,11 +44,11 @@ public class TextUi {
         }
     }
     
-    private int digits(int n) {
+    public static int digits(int n) {
         return (int) Math.log10(n) + 1;
     }
     
-    private String formatOrderNumber(int number, int max) {
+    public static String formatOrderNumber(int number, int max) {
         String str = "";
         int zeros = digits(max)-digits(number);
         for (int i = 0; i < zeros; i++)

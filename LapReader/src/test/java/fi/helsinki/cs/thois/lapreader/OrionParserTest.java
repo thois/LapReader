@@ -20,12 +20,9 @@ import org.junit.Test;
 public class OrionParserTest {
     @Test
     public void testParseTime() throws ParseException {
-        int number = 71230;
-        Time time = new Time(number);
-        String str = time.getMinutes() + "m" + time.getSeconds() + "s"
-                + (number%1000)/10;
+        String str = "10m12s13";
         int parsedTime = OrionParser.parseTime(str);
-        assert(time.getTime() == parsedTime);
+        assert(parsedTime == 612130);
     }
     
     @Test
