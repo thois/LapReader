@@ -44,10 +44,22 @@ public class TextUi {
         }
     }
     
+    private int digits(int n) {
+        return (int) Math.log10(n) + 1;
+    }
+    
+    private String formatOrderNumber(int number, int max) {
+        String str = "";
+        int zeros = digits(max)-digits(number);
+        for (int i = 0; i < zeros; i++)
+            str += 0;
+        return str + number;
+    }
+    
     private <T> void printModels(T[] l) {
         System.out.println("Tietokannassa olevat:");
         for (int i = 0; i < l.length; i++) {
-            System.out.println((1+i)+".: " + l[i]);
+            System.out.println(formatOrderNumber(1+i, l.length)+".: " + l[i]);
         }
     }
     

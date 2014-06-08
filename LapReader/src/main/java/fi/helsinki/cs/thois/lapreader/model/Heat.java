@@ -29,7 +29,7 @@ public class Heat extends Model {
     @DatabaseField(foreign=true)
     private TestDay testDay;
     
-    @ForeignCollectionField(eager = false, orderColumnName="time")
+    @ForeignCollectionField(eager = false, orderColumnName="lapNumber")
     private ForeignCollection<Lap> laps;
     
     private Result result;

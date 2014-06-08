@@ -77,8 +77,8 @@ public class Controller {
         List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
         List<Integer> laps = OrionParser.parse(lines.toArray(new String[lines.size()]));
         heatDao.create(h);
-        for (Integer lap: laps) {
-            Lap l = new Lap(lap, h);
+        for (int i = 0; i < laps.size(); i++) {
+            Lap l = new Lap(laps.get(i), i+1, h);
             lapDao.create(l);
         }
     }

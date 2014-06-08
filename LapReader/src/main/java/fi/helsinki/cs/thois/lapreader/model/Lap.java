@@ -5,6 +5,7 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
 import com.j256.ormlite.field.DatabaseField;
+import java.text.DecimalFormat;
 import javax.persistence.*;
 /**
  *
@@ -15,22 +16,26 @@ public class Lap extends Model {
     
     //Time in 0,1 milliseconds
     @Column
-    int time;
+    private int time;
+    
+    @Column
+    private int lapNumber;
     
     @ManyToOne
     @DatabaseField(foreign=true)
-    Heat heat;
+    private Heat heat;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
     public Lap() {
         
     }
     
-    public Lap(int time, Heat heat) {
+    public Lap(int time, int lapNumber, Heat heat) {
         this.time = time;
+        this.lapNumber = lapNumber;
         this.heat = heat;
     }
     
@@ -67,7 +72,8 @@ public class Lap extends Model {
     }
     
     public String toString() {
-        return seconds() + "." + thousands();
+        DecimalFormat df = new DecimalFormat("#.000");
+        return df.format((double)time/1000);
     }
     
 }
