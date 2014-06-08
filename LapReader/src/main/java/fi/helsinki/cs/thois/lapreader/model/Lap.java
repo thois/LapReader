@@ -10,7 +10,7 @@ import javax.persistence.*;
  * @author niko
  */
 @Entity
-public class Lap {
+public class Lap extends Model {
     
     //Time in microseconds
     int time;

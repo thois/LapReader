@@ -8,6 +8,7 @@ package fi.helsinki.cs.thois.lapreader.ui.text;
 
 import fi.helsinki.cs.thois.lapreader.controller.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
+import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -35,7 +36,7 @@ public class TextUi {
         while(true) {
             System.out.print("Anna päivämäärä muodossa dd.MM.yyyy (" + df.format(new Date()) + "): ");
             try {
-                controller.addDay(scanner.nextLine());
+                currentDay = controller.addDay(scanner.nextLine());
                 break;
             } catch (ParseException e) {
                     System.out.println("Virheellien päivä!");
@@ -43,10 +44,10 @@ public class TextUi {
         }
     }
     
-    private void printDays(List<TestDay> days) {
-        System.out.println("Tietokannassa olevat päivät:");
-        for (int i = 0; i < days.size(); i++) {
-            System.out.println((1+i)+".: "+days.get(i));
+    private <T> void printModels(T[] l) {
+        System.out.println("Tietokannassa olevat:");
+        for (int i = 0; i < l.length; i++) {
+            System.out.println((1+i)+".: " + l[i]);
         }
     }
     
@@ -57,19 +58,8 @@ public class TextUi {
             addDay();
             return;
         }
-        printDays(days);
-        int option;
-        while (true) {
-            System.out.print("Valitse päivä: ");
-            try {
-            option = Integer.parseInt(scanner.nextLine());
-            if (option > 0 && option <= days.size())
-                break;
-            break;
-            } catch (NumberFormatException e) {
-                System.out.println("Virheellinen valinta.");
-            }
-        }
+        printModels(days.toArray(new TestDay[0]));
+        int option = selectOption(days.size());
         currentDay = days.get(option-1);
     }
     
@@ -83,7 +73,7 @@ public class TextUi {
             System.out.print("Anna aika muodossa HH.mm (" + df.format(new Date()) + "): ");
             try {
                 String time = scanner.nextLine();
-                System.out.println("Anna tiedostonnimi: ");
+                System.out.print("Anna tiedostonnimi: ");
                 try {
                     controller.addHeat(currentDay, scanner.nextLine(), time);
                 } catch (IOException e) {
@@ -92,10 +82,44 @@ public class TextUi {
                 break;
             } catch (ParseException e) {
                     System.out.println("Virheellien aika!");
-                    e.printStackTrace();
             }
         }
         
+    }
+    
+    public int selectOption(int options) {
+        int option;
+        while (true) {
+            System.out.print("Valinta: ");
+            try {
+            option = Integer.parseInt(scanner.nextLine());
+            if (option > 0 && option <= options)
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Virheellinen valinta.");
+            }
+        }
+        return option;
+    }
+    
+    private void printHeat(Heat h) {
+        //TODO
+    }
+    
+    public void showHeat() throws SQLException {
+        if (currentDay == null) {
+            System.out.println("Ei valittua päivää!");
+            return;
+        }
+        Heat[] heats = controller.getHeats(currentDay).toArray(new Heat[0]);
+        printModels(heats);
+        int option = selectOption(heats.length);
+        printHeat(heats[option-1]);
+    }
+    
+    public void compareHeats() {
+        //TODO
+        System.out.println("Ei toteutettu!");
     }
     
     public void mainMenu() {
@@ -106,7 +130,9 @@ public class TextUi {
             System.out.println("1. Lisää päivä");
             System.out.println("2. Valitse päivä");
             System.out.println("3. Lisää heatti");
-            System.out.println("4. Lopeta");
+            System.out.println("4. Näytä heatti");
+            System.out.println("5. Vertaa heatteja");
+            System.out.println("0. Lopeta");
             System.out.print("Valitse toiminto: ");
             int option;
             try {
@@ -123,7 +149,11 @@ public class TextUi {
                         break;
                     case 3: addHeat();
                         break;
-                    case 4:
+                    case 4: showHeat();
+                        break;
+                    case 5: compareHeats();
+                        break;
+                    case 0:
                         return;
                     default:
                         System.out.println("Virheellinen valinta.");

@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author niko
  */
 @Entity
-public class Heat {
+public class Heat extends Model {
     
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

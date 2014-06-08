@@ -12,6 +12,8 @@ package fi.helsinki.cs.thois.lapreader.model;
  * @author nlindval
  */
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.ForeignCollectionField;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class TestDay {
+public class TestDay extends Model {
 
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,8 +32,8 @@ public class TestDay {
     
     private String conditions = "";
     
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Heat> heats = new ArrayList<>();
+    @ForeignCollectionField(eager = false, orderColumnName="time")
+    ForeignCollection<Heat> heats;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,11 +82,11 @@ public class TestDay {
         return conditions;
     }
 
-    public List<Heat> getHeats() {
+    public ForeignCollection<Heat> getHeats() {
         return heats;
     }
 
-    public void setHeats(List<Heat> heats) {
+    public void setHeats(ForeignCollection<Heat> heats) {
         this.heats = heats;
     }
     

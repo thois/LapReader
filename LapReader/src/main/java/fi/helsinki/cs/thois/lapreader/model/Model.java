@@ -8,6 +8,6 @@ package fi.helsinki.cs.thois.lapreader.model;
  *
  * @author niko
  */
-class Result extends Model {
+public abstract class Model {
     
 }

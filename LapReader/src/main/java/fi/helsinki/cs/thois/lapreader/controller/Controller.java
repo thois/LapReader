@@ -43,6 +43,10 @@ public class Controller {
             DaoManager.createDao(connectionSource, Heat.class);
         lapDao =
             DaoManager.createDao(connectionSource, Lap.class);
+        createTablesIfNotExists();
+    }
+    
+    private void createTablesIfNotExists() throws SQLException {
         TableUtils.createTableIfNotExists(connectionSource, TestDay.class);
         TableUtils.createTableIfNotExists(connectionSource, Heat.class);
         TableUtils.createTableIfNotExists(connectionSource, Lap.class);
@@ -57,9 +61,10 @@ public class Controller {
         return queryBuilder.orderBy("day", true).query();
     }
     
-    public void addDay(String date) throws ParseException, SQLException {
+    public TestDay addDay(String date) throws ParseException, SQLException {
         TestDay d = new TestDay(date);
         testDayDao.create(d);
+        return d;
     }
     
     public void addHeat(TestDay day, String filename, String time) throws ParseException, IOException, SQLException {
@@ -71,13 +76,18 @@ public class Controller {
             h = new Heat(df.parse(time));
         List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
         List<Integer> laps = OrionParser.parse(lines.toArray(new String[lines.size()]));
+        heatDao.create(h);
         for (Integer lap: laps) {
             Lap l = new Lap(lap);
             lapDao.create(l);
         }
         day.addHeat(h);
-        heatDao.update(h);
         testDayDao.update(day);
+    }
+    
+    public ForeignCollection<Heat> getHeats(TestDay day) throws SQLException {
+        testDayDao.refresh(day);
+        return day.getHeats();
     }
     
 }
