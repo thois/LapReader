@@ -30,6 +30,7 @@ public class Controller {
     Dao<TestDay, String> testDayDao;
     Dao<Heat, String> heatDao;
     Dao<Lap, String> lapDao;
+    Dao<Result, String> resultDao;
     
     public Controller(String databaseUrl) throws SQLException {
         
@@ -42,6 +43,8 @@ public class Controller {
             DaoManager.createDao(connectionSource, Heat.class);
         lapDao =
             DaoManager.createDao(connectionSource, Lap.class);
+        resultDao =
+            DaoManager.createDao(connectionSource, Result.class);
         createTablesIfNotExists();
     }
     
@@ -127,6 +130,8 @@ public class Controller {
             Lap l = new Lap(laps.get(i), i+1, h);
             lapDao.create(l);
         }
+        Result result = new Result(laps, h);
+        resultDao.create(result);
     }
     
     

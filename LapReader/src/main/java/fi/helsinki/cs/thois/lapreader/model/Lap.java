@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 public class Lap extends Model {
     /**
-     * Laptime in 0,1 milliseconds
+     * Laptime in milliseconds
      */
     @Column
     private int time;

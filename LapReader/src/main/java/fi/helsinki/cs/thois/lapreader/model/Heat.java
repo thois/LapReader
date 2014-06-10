@@ -33,6 +33,7 @@ public class Heat extends Model {
     @ForeignCollectionField(eager = false, orderColumnName="lapNumber")
     private ForeignCollection<Lap> laps;
     
+    @OneToOne
     private Result result;
     
     @Id
@@ -92,5 +93,6 @@ public class Heat extends Model {
         DateFormat df = new SimpleDateFormat("HH.mm");
         return df.format(time) + ": " + result;
     }
+    
     
 }
