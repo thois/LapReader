@@ -3,18 +3,17 @@ package fi.helsinki.cs.thois.lapreader.model;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 /**
  * Database model for one Heat (one constant run)
  */
 @Entity
-public class Heat extends Model {
+public class Heat extends Model implements Serializable {
     
     /**
      *  Starting time
@@ -34,6 +33,7 @@ public class Heat extends Model {
     private ForeignCollection<Lap> laps;
     
     @OneToOne
+    @DatabaseField(foreign=true, foreignAutoRefresh=true)
     private Result result;
     
     @Id
@@ -50,6 +50,14 @@ public class Heat extends Model {
         }
         this.time = time;
         this.testDay = testDay;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
     
     public Date getTime() {

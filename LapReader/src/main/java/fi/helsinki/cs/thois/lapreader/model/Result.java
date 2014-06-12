@@ -1,6 +1,5 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
-import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -8,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
  *
@@ -28,13 +26,6 @@ public class Result extends Model implements Serializable {
     @Column
     int laps;
     
-    /**
-     * Parent
-     */
-    @ManyToOne
-    @DatabaseField(foreign=true)
-    Heat heat;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -43,7 +34,7 @@ public class Result extends Model implements Serializable {
         
     }
     
-    public Result (List<Integer> lapTimes, Heat h) {
+    public Result (List<Integer> lapTimes) {
         int maxTime = 5*60000;
         for (int laptime:lapTimes) {
             time += laptime;
@@ -66,10 +57,6 @@ public class Result extends Model implements Serializable {
         return laps;
     }
 
-    public Heat getHeat() {
-        return heat;
-    }
-
     public int getId() {
         return id;
     }
@@ -80,10 +67,6 @@ public class Result extends Model implements Serializable {
 
     public void setLaps(int laps) {
         this.laps = laps;
-    }
-
-    public void setHeat(Heat heat) {
-        this.heat = heat;
     }
 
     public void setId(int id) {
@@ -106,7 +89,7 @@ public class Result extends Model implements Serializable {
         return (time%60000)/1000;
     }
     /**
-     * Getting microseconds-full seconds for easier formatting
+     * Getting milliseconds-full seconds for easier formatting
      * @return microseconds
      */
     public int milliSeconds() {
@@ -115,7 +98,9 @@ public class Result extends Model implements Serializable {
     
     @Override
     public String toString() {
-        return laps + " laps " + minutes() + ":" + seconds() + "." + milliSeconds();
+        return laps + " laps " + String.format("%02d", minutes()) +
+                ":" + String.format("%02d", seconds()) + "." +
+                String.format("%03d", milliSeconds());
     }
     
 }

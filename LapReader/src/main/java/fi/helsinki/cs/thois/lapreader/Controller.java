@@ -56,6 +56,7 @@ public class Controller {
         TableUtils.dropTable(connectionSource, TestDay.class, true);
         TableUtils.dropTable(connectionSource, Heat.class, true);
         TableUtils.dropTable(connectionSource, Lap.class, true);
+        TableUtils.dropTable(connectionSource, Result.class, true);
     }
     
     /**
@@ -66,6 +67,7 @@ public class Controller {
         TableUtils.createTableIfNotExists(connectionSource, TestDay.class);
         TableUtils.createTableIfNotExists(connectionSource, Heat.class);
         TableUtils.createTableIfNotExists(connectionSource, Lap.class);
+        TableUtils.createTableIfNotExists(connectionSource, Result.class);
     }
     
     /**
@@ -120,7 +122,7 @@ public class Controller {
             ParseException, SQLException {
         DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h;
-        if (time.isEmpty()||time == null)
+        if (time == null||time.isEmpty())
             h = new Heat(null, day);
         else
             h = new Heat(df.parse(time), day);
@@ -130,8 +132,10 @@ public class Controller {
             Lap l = new Lap(laps.get(i), i+1, h);
             lapDao.create(l);
         }
-        Result result = new Result(laps, h);
+        Result result = new Result(laps);
         resultDao.create(result);
+        h.setResult(result);
+        heatDao.update(h);
     }
     
     

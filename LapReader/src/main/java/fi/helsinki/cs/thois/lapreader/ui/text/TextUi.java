@@ -73,9 +73,9 @@ public class TextUi {
             System.out.println("Ei valittua päivää!");
             return;
         }
-        DateFormat df = new SimpleDateFormat("HH.mm");
+        DateFormat df = new SimpleDateFormat("HH:mm");
         while(true) {
-            System.out.print("Anna aika muodossa HH.mm (" + df.format(new Date()) + "): ");
+            System.out.print("Anna aika muodossa HH:mm (" + df.format(new Date()) + "): ");
             try {
                 String time = scanner.nextLine();
                 System.out.print("Anna tiedostonnimi: ");
@@ -167,6 +167,7 @@ public class TextUi {
                 }
             } catch (SQLException ex) {
                 System.out.println("Tietokantavirhe! Yritä uudelleen.");
+                ex.printStackTrace();
             }
         }
     }
