@@ -11,6 +11,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
+import fi.helsinki.cs.thois.lapreader.parser.Parser;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -103,11 +104,12 @@ public class Controller {
      * @throws ParseException if parsing time or file fails
      * @throws SQLException  if database operation fails
      */
-    public void addHeatFromFile(TestDay day, String filename, String time)
+    public void addHeatFromFile(TestDay day, String filename, String time,
+            Parser parser)
             throws IOException, ParseException, SQLException {
         List<String> lines = Files.readAllLines(Paths.get(filename),
                 StandardCharsets.UTF_8);
-        addHeat(day, lines.toArray(new String[0]), time);
+        addHeat(day, lines.toArray(new String[0]), time, parser);
     }
     
     /**
@@ -118,7 +120,7 @@ public class Controller {
      * @throws ParseException if parsing time or laptimes fails
      * @throws SQLException if database operation fails
      */
-    public void addHeat(TestDay day, String[] lines, String time) throws
+    public void addHeat(TestDay day, String[] lines, String time, Parser parser) throws
             ParseException, SQLException {
         DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h;
@@ -126,7 +128,7 @@ public class Controller {
             h = new Heat(null, day);
         else
             h = new Heat(df.parse(time), day);
-        List<Integer> laps = OrionParser.parse(lines);
+        List<Integer> laps = parser.parse(lines);
         heatDao.create(h);
         for (int i = 0; i < laps.size(); i++) {
             Lap l = new Lap(laps.get(i), i+1, h);

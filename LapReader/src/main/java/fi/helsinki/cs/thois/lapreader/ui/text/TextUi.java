@@ -3,6 +3,7 @@ package fi.helsinki.cs.thois.lapreader.ui.text;
 import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
+import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -27,7 +28,8 @@ public class TextUi {
     private void addDay() throws SQLException {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         while(true) {
-            System.out.print("Anna päivämäärä muodossa dd.MM.yyyy (" + df.format(new Date()) + "): ");
+            System.out.print("Anna päivämäärä muodossa dd.MM.yyyy (" +
+                    df.format(new Date()) + "): ");
             try {
                 currentDay = controller.addDay(scanner.nextLine());
                 break;
@@ -75,12 +77,14 @@ public class TextUi {
         }
         DateFormat df = new SimpleDateFormat("HH:mm");
         while(true) {
-            System.out.print("Anna aika muodossa HH:mm (" + df.format(new Date()) + "): ");
+            System.out.print("Anna aika muodossa HH:mm (" +
+                    df.format(new Date()) + "): ");
             try {
                 String time = scanner.nextLine();
                 System.out.print("Anna tiedostonnimi: ");
                 try {
-                    controller.addHeatFromFile(currentDay, scanner.nextLine(), time);
+                    controller.addHeatFromFile(currentDay, scanner.nextLine(),
+                            time, new OrionParser());
                 } catch (IOException e) {
                     System.out.println("Ongelma tiedoston lukemisessa!");
                 }

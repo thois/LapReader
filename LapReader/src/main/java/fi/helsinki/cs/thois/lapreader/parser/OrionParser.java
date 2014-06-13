@@ -14,7 +14,7 @@ import java.text.ParseException;
 /**
  * Class parses laptimes from Strings dumped from Orion Pro LCS -device
  */
-public class OrionParser {
+public class OrionParser implements Parser {
     
     /**
      * 
@@ -41,7 +41,7 @@ public class OrionParser {
      * @return  Array of laptimes in thousands of seconds
      * @throws ParseException 
      */
-    public static List<Integer> parse(String[] str) throws ParseException {
+    public List<Integer> parse(String[] str) throws ParseException {
         ArrayList<Integer> laps = new ArrayList<>();
         for (String s:str) {
             s = s.replaceAll("\\s+", " ");

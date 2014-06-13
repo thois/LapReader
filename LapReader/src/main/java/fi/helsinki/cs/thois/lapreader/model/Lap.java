@@ -35,6 +35,11 @@ public class Lap extends Model {
         
     }
     
+    public Lap(int time, int lapNumber) {
+        this.time = time;
+        this.lapNumber = lapNumber;
+    }
+    
     public Lap(int time, int lapNumber, Heat heat) {
         this.time = time;
         this.lapNumber = lapNumber;
@@ -93,6 +98,10 @@ public class Lap extends Model {
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.000");
         return df.format((double)time/1000);
+    }
+    
+    public Lap diff(Lap another) {
+        return new Lap(time-another.getTime(), lapNumber);
     }
     
 }

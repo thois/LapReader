@@ -98,7 +98,7 @@ public class Heat extends Model implements Serializable {
     
     @Override
     public String toString() {
-        DateFormat df = new SimpleDateFormat("HH.mm");
+        DateFormat df = new SimpleDateFormat("HH:mm");
         return df.format(time) + ": " + result;
     }
     
