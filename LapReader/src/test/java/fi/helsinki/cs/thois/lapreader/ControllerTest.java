@@ -60,7 +60,8 @@ public class ControllerTest {
         TestDay day = controller.addDay("15.06.2013");
         String[] lines = {"01Lap  00m15s18  04m34s43"};
         controller.addHeat(day, lines, "16:53", parser);
-        ForeignCollection<Heat> h = controller.getHeats(controller.getDays().get(0));
+        ForeignCollection<Heat> h =
+                controller.getHeats(controller.getDays().get(0));
         Heat[] heats = h.toArray(new Heat[0]);
         assert(heats.length == 1);
     }
