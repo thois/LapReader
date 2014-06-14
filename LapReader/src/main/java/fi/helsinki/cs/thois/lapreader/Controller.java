@@ -10,7 +10,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import fi.helsinki.cs.thois.lapreader.model.*;
-import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import fi.helsinki.cs.thois.lapreader.parser.Parser;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
