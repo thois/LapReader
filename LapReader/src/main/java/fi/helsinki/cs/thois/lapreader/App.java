@@ -1,5 +1,6 @@
 package fi.helsinki.cs.thois.lapreader;
 
+import fi.helsinki.cs.thois.lapreader.ui.gui.Gui;
 import fi.helsinki.cs.thois.lapreader.ui.text.TextUi;
 import java.sql.SQLException;
 
@@ -21,8 +22,10 @@ public class App
             System.out.println("Virhe tietokannan " + databaseUrl + " avaamisessa");
             return;
         }
-        TextUi ui = new TextUi(controller);
-        ui.mainMenu();
+        //TextUi ui = new TextUi(controller);
+        //ui.mainMenu();
+        Gui gui = new Gui(controller);
+        gui.run();
         
     }
 }

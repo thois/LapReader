@@ -91,4 +91,9 @@ public class TestDay extends Model {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         return df.format(day);
     }
+    
+    public Object[] getRowData() {
+        Object[] data = {toString(), "" + heats.size()};
+        return data;
+    }
 }

@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class TextUi {
     Scanner scanner = new Scanner(System.in);    
     private TestDay currentDay;
-    private Controller controller;
+    private final Controller controller;
     
     public TextUi(Controller controller) {
     this.controller = controller;
