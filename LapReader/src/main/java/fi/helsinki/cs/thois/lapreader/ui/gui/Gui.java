@@ -8,8 +8,7 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,12 +24,11 @@ public class Gui implements Runnable {
     
     @Override
     public void run() {
-        DayListView dayListView = new DayListView(controller);
         try {
-            dayListView.refreshData();
+            DayListView dayListView = new DayListView(controller);
             dayListView.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Tietokantavirhe!");
         }
         
     }

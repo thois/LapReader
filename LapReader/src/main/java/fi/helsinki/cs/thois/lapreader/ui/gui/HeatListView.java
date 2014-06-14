@@ -26,6 +26,7 @@ public class HeatListView extends ListView {
         selectedDay = day;
         Object[] columnNames = {"Date", "Heats"};
         super.columnNames = columnNames;
+        getListTitle().setText("Päivän " + selectedDay + " heatit:");
     }
     
     public void refreshData() throws SQLException {
