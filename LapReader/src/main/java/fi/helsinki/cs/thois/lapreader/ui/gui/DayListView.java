@@ -23,11 +23,9 @@ public class DayListView extends ListView {
     }
     
     public void refreshDays() throws SQLException {
-        System.out.println("hep");
         Object[] columnNames = {"Date", "Heats"};
         List<TestDay> days = controller.getDays();
         Object[][] data;
-        System.out.println(days);
         if (days == null || days.isEmpty()) {
             data = new Object[0][columnNames.length];
         } else {
