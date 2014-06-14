@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Heat extends Model implements Serializable {
     
     /**
-     *  Starting time
+     *  Starting time of the heat. Only time matters.
      */
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,21 +29,38 @@ public class Heat extends Model implements Serializable {
     @DatabaseField(foreign=true)
     private TestDay testDay;
     
+    /**
+     * Laps presenting laptimes in the heat
+     */
     @ForeignCollectionField(eager = false, orderColumnName="lapNumber")
     private ForeignCollection<Lap> laps;
     
+    /**
+     * Result completed in the heat
+     */
     @OneToOne
     @DatabaseField(foreign=true, foreignAutoRefresh=true)
     private Result result;
     
+    /**
+     * Database id for persisting the heat in database
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /**
+     * basic constructor that uses current time as the heat starting time
+     */
     public Heat() {
         time = new Date();
     }  
     
+    /**
+     * Constructor to
+     * @param time presenting starting time of the heat
+     * @param testDay links the heat to day
+     */
     public Heat(Date time, TestDay testDay) {
         if (time==null) {
             time = new Date();

@@ -9,8 +9,8 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 import com.j256.ormlite.dao.ForeignCollection;
 import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.Heat;
+import fi.helsinki.cs.thois.lapreader.model.Lap;
 import fi.helsinki.cs.thois.lapreader.model.Model;
-import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,23 +18,23 @@ import java.util.ArrayList;
  *
  * @author niko
  */
-public class HeatListView extends ListView {
+public class LapListView extends ListView {
     
-    private TestDay day;
-    private ForeignCollection<Heat> heats;
+    private Heat heat;
+    private ForeignCollection<Lap> laps;
     
-    public HeatListView(Controller controller, TestDay day) throws SQLException {
+    public LapListView(Controller controller, Heat heat) throws SQLException {
         super(controller);
-        this.day = day;
-        Object[] columnNames = {"Date", "Heats"};
+        this.heat = heat;
+        Object[] columnNames = {"Lapnumber", "Laptime"};
         super.columnNames = columnNames;
-        getListTitle().setText("Heats in " + this.day + " :");
+        getListTitle().setText("Days " + heat.getTestDay() + " heat " + heat + " :");
         refreshData();
     }
     
     public void refreshData() throws SQLException {
-        heats = controller.getHeats(day);
-        super.refreshData(new ArrayList<Model>(heats));
+        laps = controller.getLaps(heat);
+        super.refreshData(new ArrayList<Model>(laps));
     }
     
 }

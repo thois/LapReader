@@ -5,5 +5,9 @@ package fi.helsinki.cs.thois.lapreader.model;
  */
 public abstract class Model {
     
+    /**
+    * Get data from the model in row format for creating tables
+    * @return Array of model data
+    */
     public abstract Object[] getRowData();
 }

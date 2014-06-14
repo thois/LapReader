@@ -26,12 +26,24 @@ import java.util.List;
  */
 public class Controller {
     
+    /**
+     * Database connection source for using the database
+     */
     ConnectionSource connectionSource;
+    
+    /**
+     * Daos for persisting the models
+     */
     Dao<TestDay, String> testDayDao;
     Dao<Heat, String> heatDao;
     Dao<Lap, String> lapDao;
     Dao<Result, String> resultDao;
     
+    /**
+     * Consturctor, that creates all daos and databases
+     * @param databaseUrl as a string in persistence lib format
+     * @throws SQLException 
+     */
     public Controller(String databaseUrl) throws SQLException {
         
         connectionSource =

@@ -17,14 +17,33 @@ import java.util.Scanner;
  * Contains text-mode UI for the app
  */
 public class TextUi {
-    Scanner scanner = new Scanner(System.in);    
+    /**
+     * Reference to scanner, it is needed almost all user interface methods
+     */
+    Scanner scanner = new Scanner(System.in);
+    
+    /**
+     * Contains selected day
+     */
     private TestDay currentDay;
+    
+    /**
+     * Reference to controller providing the program logic
+     * @param controller 
+     */
     private final Controller controller;
     
+    /**
+     * Creates textUi attacs controller
+     * @param controller 
+     */
     public TextUi(Controller controller) {
     this.controller = controller;
 }
-    
+    /**
+     * Asks day from user and adds it to the database
+     * @throws SQLException when database error occurs
+     */
     private void addDay() throws SQLException {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         while(true) {
@@ -39,10 +58,21 @@ public class TextUi {
         }
     }
     
+    /**
+     * calculates digits in a number
+     * @param n number to be evaluated
+     * @return digits of number
+     */
     public static int digits(int n) {
         return (int) Math.log10(n) + 1;
     }
     
+    /**
+     * Formats order number for printing by adding leading zeroes
+     * @param number to be formatted
+     * @param max largest number to be displayed
+     * @return 
+     */
     public static String formatOrderNumber(int number, int max) {
         String str = "";
         int zeros = digits(max)-digits(number);
@@ -51,6 +81,11 @@ public class TextUi {
         return str + number;
     }
     
+    /**
+     * Print models
+     * @param <T> Model to be printed
+     * @param l list of models to be printed
+     */
     private <T> void printModels(T[] l) {
         System.out.println("Tietokannassa olevat:");
         for (int i = 0; i < l.length; i++) {
@@ -58,6 +93,10 @@ public class TextUi {
         }
     }
     
+    /**
+     * Asks user to select day
+     * @throws SQLException when database error occurs
+     */
     private void selectDay() throws SQLException {
         List<TestDay> days = controller.getDays();
         if (days == null || days.isEmpty()) {
@@ -70,6 +109,10 @@ public class TextUi {
         currentDay = days.get(option-1);
     }
     
+    /**
+     * Asks heat time and filename including laptimes
+     * @throws SQLException when database error occurs
+     */
     public void addHeat() throws SQLException {
         if (currentDay == null) {
             System.out.println("Ei valittua päivää!");
@@ -96,6 +139,11 @@ public class TextUi {
         
     }
     
+    /**
+     * Asks option from user
+     * @param options numbers of options possible
+     * @return option selected by user
+     */
     public int selectOption(int options) {
         int option;
         while (true) {
@@ -111,11 +159,20 @@ public class TextUi {
         return option;
     }
     
+    /**
+     * Prints a heat
+     * @param h heat to be printed
+     * @throws SQLException  when database error occurs
+     */
     private void printHeat(Heat h) throws SQLException {
         Lap[] laps = controller.getLaps(h).toArray(new Lap[0]);
         printModels(laps);
     }
     
+    /**
+     * Asks heat to be desplayed and print it
+     * @throws SQLException when database error occurs
+     */
     public void showHeat() throws SQLException {
         if (currentDay == null) {
             System.out.println("Ei valittua päivää!");
@@ -127,11 +184,17 @@ public class TextUi {
         printHeat(heats[option-1]);
     }
     
+    /**
+     * Compares two heats in text mode
+     */
     public void compareHeats() {
         //TODO
         System.out.println("Ei toteutettu!");
     }
     
+    /**
+     * Opens main menu
+     */
     public void mainMenu() {
 
         while(true) {
@@ -171,7 +234,6 @@ public class TextUi {
                 }
             } catch (SQLException ex) {
                 System.out.println("Tietokantavirhe! Yritä uudelleen.");
-                ex.printStackTrace();
             }
         }
     }

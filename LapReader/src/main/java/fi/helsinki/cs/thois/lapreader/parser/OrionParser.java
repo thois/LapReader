@@ -19,7 +19,7 @@ public class OrionParser implements Parser {
     /**
      * 
      * @param   s   Laptime in form "mm:ss.ss" 
-     * @return  Laptime in thousands of seconds
+     * @return  Laptime in milliseconds
      * @throws ParseException 
      */
     public static int parseTime(String s) throws ParseException {
@@ -31,10 +31,11 @@ public class OrionParser implements Parser {
             if (tbl.length < 2)
                 throw new ParseException("Time (" + s + ") is unparseable!", -1);
             int seconds = Integer.parseInt(tbl[0]);
-            int milliseconds = Integer.parseInt(tbl[1]);
-            int time = 60000*minutes+1000*seconds+milliseconds*10;
+            int milliseconds = 10*Integer.parseInt(tbl[1]);
+            int time = 60000*minutes+1000*seconds+milliseconds;
             return time;
     }
+    
     /**
      * Parses array of strings to integers
      * @param str   Table of strings to be parsed

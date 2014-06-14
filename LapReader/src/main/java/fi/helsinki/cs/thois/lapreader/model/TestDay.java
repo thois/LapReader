@@ -4,6 +4,7 @@ package fi.helsinki.cs.thois.lapreader.model;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.ForeignCollectionField;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,8 +15,11 @@ import javax.persistence.*;
  * Database model for a day. Named to TestDay to avoid impact with Java's Date.
  */
 @Entity
-public class TestDay extends Model {
+public class TestDay extends Model implements Serializable {
 
+    /**
+     * Keeps date of the day. Time don't matter
+     */
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date day;
@@ -25,18 +29,30 @@ public class TestDay extends Model {
      */
     private String conditions = "";
     
+    /**
+     * 
+     */
     @ForeignCollectionField(eager = false, orderColumnName="time")
     ForeignCollection<Heat> heats;
     
+    /**
+     * Used solely for persisting the testday in the database
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    
+    /**
+     * Basic constructor for use in persistence module
+     */
     public TestDay() {
         day = new Date();
     }
-    
+
+    /**
+     * Constructor for creating testDay from Java's date object
+     * @param day as a date object
+     */
     public TestDay(Date day) {
         if (day == null) {
             day = new Date();
@@ -44,7 +60,11 @@ public class TestDay extends Model {
         this.day = day;
     }
     
-    
+    /**
+     * Constructor for creating day from date string
+     * @param date as a "dd.MM.yyyy" string
+     * @throws ParseException 
+     */
     public TestDay(String date) throws ParseException {
         if (date == null || date.isEmpty()) {
             day = new Date();
@@ -92,6 +112,7 @@ public class TestDay extends Model {
         return df.format(day);
     }
     
+    @Override
     public Object[] getRowData() {
         Object[] data = {toString(), "" + heats.size()};
         return data;

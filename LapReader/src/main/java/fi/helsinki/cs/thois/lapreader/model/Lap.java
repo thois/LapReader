@@ -1,13 +1,14 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
 import com.j256.ormlite.field.DatabaseField;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import javax.persistence.*;
 /**
  * Database model for one lap.
  */
 @Entity
-public class Lap extends Model {
+public class Lap extends Model implements Serializable {
     /**
      * Laptime in milliseconds
      */
@@ -15,7 +16,7 @@ public class Lap extends Model {
     private int time;
     
     /**
-     * Number for ordering laps in a heat. Starts from 1
+     * Order number for ordering laps in a heat. Starts from 1
      */
     @Column
     private int lapNumber;
@@ -27,19 +28,35 @@ public class Lap extends Model {
     @DatabaseField(foreign=true)
     private Heat heat;
     
+    /**
+     * Database id for persisting the heat in database
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    public Lap() {
-        
+    /**
+     * Basic constructor for persistence module
+     */
+    public Lap() {  
     }
     
+    /**
+     * Constructor for creating laptime without a heat.
+     * @param time presents laptime
+     * @param lapNumber order number of the lap
+     */
     public Lap(int time, int lapNumber) {
         this.time = time;
         this.lapNumber = lapNumber;
     }
     
+    /**
+     * Constuctor for normal use
+     * @param time presents laptime
+     * @param lapNumber presents order number of the lap in a heat
+     * @param heat links laptime to Heat
+     */
     public Lap(int time, int lapNumber, Heat heat) {
         this.time = time;
         this.lapNumber = lapNumber;
@@ -100,6 +117,11 @@ public class Lap extends Model {
         return df.format((double)time/1000);
     }
     
+    /**
+     * Calculates difference in laptime to another lap
+     * @param another
+     * @return time difference as a Lap object
+     */
     public Lap diff(Lap another) {
         return new Lap(time-another.getTime(), lapNumber);
     }

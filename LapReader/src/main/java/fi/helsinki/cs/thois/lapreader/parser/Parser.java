@@ -8,9 +8,15 @@ import java.text.ParseException;
 import java.util.List;
 
 /**
- *
- * @author niko
+ *Interface for laptime parsers
  */
 public interface Parser {
+    
+    /**
+     * Parses array of strings to integers
+     * @param str   Table of strings to be parsed
+     * @return  Array of laptimes in thousands of seconds
+     * @throws ParseException 
+     */
     public List<Integer> parse(String[] str) throws ParseException ;
 }

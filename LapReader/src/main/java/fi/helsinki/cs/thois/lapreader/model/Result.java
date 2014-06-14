@@ -20,11 +20,13 @@ public class Result extends Model implements Serializable {
      */
     @Column
     int time;
+    
     /**
      * Full laps run in a heat
      */
     @Column
     int laps;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

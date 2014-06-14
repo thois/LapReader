@@ -11,7 +11,10 @@ public class App
 {
     
 
-        
+    /**
+     * Runnable main method that starts the program ui
+     * @param args command line arguments
+     */    
     public static void main( String[] args )
     {
         String databaseUrl = "jdbc:sqlite:db.db";
