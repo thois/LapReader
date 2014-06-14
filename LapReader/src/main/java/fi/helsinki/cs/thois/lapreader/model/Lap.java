@@ -104,4 +104,10 @@ public class Lap extends Model {
         return new Lap(time-another.getTime(), lapNumber);
     }
     
+    @Override
+    public Object[] getRowData() {
+        Object[] data = {lapNumber, time};
+        return data;
+    }
+    
 }

@@ -7,7 +7,10 @@
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
+import fi.helsinki.cs.thois.lapreader.model.Model;
+import java.util.List;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -150,6 +153,24 @@ public class ListView extends javax.swing.JFrame {
         this.jTable1 = jTable1;
     }
     
+    private Object[][] constructTable(List<Model> models, int columns) {
+        Object[][] data;
+        if (models == null) {
+            data = new Object[0][columns];
+        } else {
+            data = new Object[models.size()][columns];
+            for (int i = 0; i < models.size(); i++)
+                data[i] = models.get(i).getRowData();
+        }
+        return data;
+    }
+    
+    protected void refreshData(List<Model> models) {
+        Object[][] data = constructTable(models, columnNames.length);
+        DefaultTableModel model = (DefaultTableModel)getjTable1().getModel();
+        model.setDataVector(data, columnNames);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -200,4 +221,5 @@ public class ListView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     protected Controller controller;
+    protected Object[] columnNames;
 }

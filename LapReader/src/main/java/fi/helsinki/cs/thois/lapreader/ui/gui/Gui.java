@@ -27,7 +27,7 @@ public class Gui implements Runnable {
     public void run() {
         DayListView dayListView = new DayListView(controller);
         try {
-            dayListView.refreshDays();
+            dayListView.refreshData();
             dayListView.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);

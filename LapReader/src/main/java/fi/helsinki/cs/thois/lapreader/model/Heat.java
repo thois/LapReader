@@ -102,5 +102,10 @@ public class Heat extends Model implements Serializable {
         return df.format(time) + ": " + result;
     }
     
+    @Override
+    public Object[] getRowData() {
+        Object[] data = {time, result.toString()};
+        return data;
+    }
     
 }

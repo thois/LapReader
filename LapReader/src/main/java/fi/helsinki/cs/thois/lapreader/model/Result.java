@@ -103,4 +103,9 @@ public class Result extends Model implements Serializable {
                 String.format("%03d", milliSeconds());
     }
     
+    @Override
+    public Object[] getRowData() {
+        Object[] data = {toString()};
+        return data;
+    }
 }

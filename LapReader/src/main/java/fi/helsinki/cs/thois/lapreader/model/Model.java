@@ -5,4 +5,5 @@ package fi.helsinki.cs.thois.lapreader.model;
  */
 public abstract class Model {
     
+    public abstract Object[] getRowData();
 }
