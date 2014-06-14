@@ -6,3 +6,7 @@
 * 28.05.2014 1h Persistointikirjaston vaihdon pohdintaa ja projektin aikatauluongelmia
 * 07.06.2014 3h Persistointikirjaston vaihto
 * 08.06.2014 11h Lisää ominaisuuksia, testejä, dokumentointia
+* 10.06.2014 2h Konsultointia pajassa ja resultin implementointi
+* 12.06.2014 1,5h Korjattu resultin toiminta
+* 13.06.2014 2h Parserin modularisointi ja refaktorointia
+* 14.06.2014 5h Aloitettu GUI ja kirjoitettu lisää javadoccia

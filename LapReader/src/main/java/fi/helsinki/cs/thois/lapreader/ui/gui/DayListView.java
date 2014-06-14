@@ -35,7 +35,8 @@ public class DayListView extends ListView {
         super.refreshData(new ArrayList<Model>(days));
     }
     
-    protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    protected void showButtonActionPerformed(java.awt.event.ActionEvent evt)
+            throws SQLException {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < days.size()) {
             HeatListView dayListView = new HeatListView(controller,
