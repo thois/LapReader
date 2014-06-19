@@ -26,7 +26,7 @@ public class DayListView extends ListView {
         super(controller);
         Object[] columnNames = {"Date", "Heats"};
         super.columnNames = columnNames;
-        getListTitle().setText("Päivät");
+        getListTitle().setText("Dates");
         refreshData();
     }
     

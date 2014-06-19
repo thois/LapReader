@@ -25,7 +25,7 @@ public class LapTest {
         int time = 12345;
         Lap l = new Lap();
         l.setTime(time);
-        Assert.assertEquals(l.toString(), "12.345");
+        Assert.assertEquals("12.345", l.toString());
     }
     
 }
