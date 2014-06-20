@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author niko
- */
 public class Gui implements Runnable {
     
     private final Controller controller;

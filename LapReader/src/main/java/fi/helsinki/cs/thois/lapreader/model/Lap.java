@@ -102,7 +102,7 @@ public class Lap extends Model implements Serializable {
     
     @Override
     public Object[] getRowData() {
-        Object[] data = {lapNumber, time};
+        Object[] data = {lapNumber, toString()};
         return data;
     }
     

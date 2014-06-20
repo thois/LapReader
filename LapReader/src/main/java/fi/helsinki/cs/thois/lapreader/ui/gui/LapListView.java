@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import com.j256.ormlite.dao.ForeignCollection;
@@ -13,11 +7,8 @@ import fi.helsinki.cs.thois.lapreader.model.Lap;
 import fi.helsinki.cs.thois.lapreader.model.Model;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
-/**
- *
- * @author niko
- */
 public class LapListView extends ListView {
     
     private Heat heat;
@@ -25,10 +16,14 @@ public class LapListView extends ListView {
     
     public LapListView(Controller controller, Heat heat) throws SQLException {
         super(controller);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        showButton.setVisible(false);
+        addButton.setVisible(false);
+        deleteButton.setVisible(false);
         this.heat = heat;
         Object[] columnNames = {"Lapnumber", "Laptime"};
         super.columnNames = columnNames;
-        getListTitle().setText("Days " + heat.getTestDay() + " heat " + heat + " :");
+        getListTitle().setText("Day " + heat.getTestDay() + " heat at " + heat + " :");
         refreshData();
     }
     

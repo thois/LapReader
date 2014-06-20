@@ -3,11 +3,10 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.Model;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
+import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.DayTableModel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class DayListView extends ListView {
@@ -16,6 +15,7 @@ public class DayListView extends ListView {
     
     public DayListView(Controller controller) throws SQLException {
         super(controller);
+        super.jTable1.setModel(new DayTableModel());
         //TODO make clean actionListener
         super.showButton.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,10 +47,5 @@ public class DayListView extends ListView {
             JOptionPane.showMessageDialog(this, "Select first existing day!");
         }
     }
-    
-    protected void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        
-    }
-    
     
 }

@@ -166,7 +166,7 @@ public class ListView extends javax.swing.JFrame {
     public void setListTitle(JLabel title) {
         this.listTitle = title;
     }
-    
+       
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
         if (models == null) {
@@ -228,14 +228,14 @@ public class ListView extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JButton deleteButton;
+    protected javax.swing.JButton addButton;
+    protected javax.swing.JButton deleteButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    protected javax.swing.JTable jTable1;
     private javax.swing.JLabel listTitle;
     protected javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
