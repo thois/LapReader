@@ -1,6 +1,6 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -26,6 +26,15 @@ public class LapTest {
         Lap l = new Lap();
         l.setTime(time);
         Assert.assertEquals("12.345", l.toString());
+    }
+    
+    @Test
+    public void testGetRowData() {
+        Lap l = new Lap();
+        l.setTime(12345);
+        l.setLapNumber(25);
+        Object[] row = {25, 12345};
+        Assert.assertArrayEquals(row, l.getRowData());
     }
     
 }
