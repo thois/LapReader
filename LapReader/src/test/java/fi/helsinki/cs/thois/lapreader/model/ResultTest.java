@@ -13,6 +13,9 @@ public class ResultTest {
         Result result = new Result(lapTimes);
         assert(result.getLaps() == 2);
         assert(result.getTime() == (1234*2));
+        result = new Result(5, 10);
+        assert(result.getLaps() == 5);
+        assert(result.getTime() == 10);
     }
     
     private Result createResult() {
@@ -52,5 +55,15 @@ public class ResultTest {
         Result r = createResult();
         Object[] row = {r.toString()};
         Assert.assertArrayEquals(row, r.getRowData());
+    }
+    
+    @Test
+    public void testMaxTime() {
+        List<Integer> lapTimes = new ArrayList<>(Arrays.asList(5*60000));
+        Result result = new Result(lapTimes);
+        assert(result.getTime() == 5*60000);
+        lapTimes.add(1);
+        result = new Result(lapTimes);
+        assert(result.getTime() == 5*60000);
     }
 }

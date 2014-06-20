@@ -114,7 +114,10 @@ public class TestDay extends Model implements Serializable {
     
     @Override
     public Object[] getRowData() {
-        Object[] data = {toString(), "" + heats.size()};
+        Integer heatCount = 0;
+        if (heats != null)
+            heatCount = heats.size();
+        Object[] data = {toString(), heatCount};
         return data;
     }
 }

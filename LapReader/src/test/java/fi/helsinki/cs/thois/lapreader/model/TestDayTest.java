@@ -1,28 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author niko
- */
 public class TestDayTest {
+    DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+    
     @Test
     public void testTestDayCreation() throws ParseException {
         TestDay testDay = new TestDay();
         testDay = new TestDay("");
-        Date today = new Date();
-        testDay = new TestDay(today);
-        assertEquals(today, testDay.getDay());
+        testDay = new TestDay((String)null);
+        testDay = new TestDay((Date)null);
+        
+        Date day = df.parse("24.12.2013");
+        testDay = new TestDay(day);
+        assertEquals(day, testDay.getDay());
         
     }
     
@@ -41,6 +39,14 @@ public class TestDayTest {
         String date = "12.12.2012";
         TestDay testDay = new TestDay(date);
         assertEquals(testDay.toString(), date);
+    }
+    
+    @Test
+    public void testGetRowData() throws ParseException {
+        String date = "12.12.2012";
+        TestDay testDay = new TestDay(date);
+        Object[] row = {testDay.toString(), 0};
+        Assert.assertArrayEquals(row, testDay.getRowData());
     }
     
 }

@@ -42,16 +42,6 @@ public class Lap extends Model implements Serializable {
     }
     
     /**
-     * Constructor for creating laptime without a heat.
-     * @param time presents laptime
-     * @param lapNumber order number of the lap
-     */
-    public Lap(int time, int lapNumber) {
-        this.time = time;
-        this.lapNumber = lapNumber;
-    }
-    
-    /**
      * Constuctor for normal use
      * @param time presents laptime
      * @param lapNumber presents order number of the lap in a heat
@@ -95,22 +85,6 @@ public class Lap extends Model implements Serializable {
         this.id = id;
     }
     
-    /**
-     * Get full seconds from laptime for easier formatting
-     * @return full seconds
-     */
-    public int seconds() {
-        return time/1000;
-    }
-    
-    /**
-     * Get thousands of seconds not including full seconds
-     * @return thousands of seconds
-     */
-    public int thousands() {
-        return time%1000;
-    }
-    
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.000");
@@ -123,7 +97,7 @@ public class Lap extends Model implements Serializable {
      * @return time difference as a Lap object
      */
     public Lap diff(Lap another) {
-        return new Lap(time-another.getTime(), lapNumber);
+        return new Lap(time-another.getTime(), lapNumber, null);
     }
     
     @Override

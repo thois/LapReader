@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader.model;
 
 import java.text.DateFormat;
@@ -11,20 +7,19 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- * @author niko
- */
 public class HeatTest {
+    DateFormat df = new SimpleDateFormat("HH:mm");
     
     @Test
-    public void testCreation() {
+    public void testCreation() throws ParseException {
         Heat h = new Heat();
-        h = new Heat(new Date(), new TestDay());
+        Date date = df.parse("14:56");
+        h = new Heat(date, new TestDay());
+        Assert.assertEquals(date, h.getTime());
+        h = new Heat(null, null);
     }
     
     private Heat createHeat() throws ParseException {
-        DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h = new Heat();
         h.setTime(df.parse("15:21"));
         Result r = new Result();
