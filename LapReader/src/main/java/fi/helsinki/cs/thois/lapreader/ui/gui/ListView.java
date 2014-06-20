@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
@@ -11,13 +5,10 @@ import fi.helsinki.cs.thois.lapreader.model.Model;
 import java.awt.Component;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author niko
- */
 public class ListView extends javax.swing.JFrame {
 
     /**
@@ -194,6 +185,11 @@ public class ListView extends javax.swing.JFrame {
         model.setDataVector(data, columnNames);
     }
     
+    protected void displaySqlError() {
+        JOptionPane.showMessageDialog(this,
+                "Database error! Restart app and try again.");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -241,7 +237,7 @@ public class ListView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel listTitle;
-    private javax.swing.JButton showButton;
+    protected javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
 
     protected Controller controller;
