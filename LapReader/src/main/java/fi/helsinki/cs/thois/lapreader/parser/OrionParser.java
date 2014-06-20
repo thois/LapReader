@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fi.helsinki.cs.thois.lapreader.parser;
 
 import java.util.ArrayList;
@@ -49,7 +43,6 @@ public class OrionParser implements Parser {
             if (s.split(" ").length < 2)
                 throw new ParseException("Table is too short", -1);
             s = s.split(" ")[1];
-            System.out.println(s);
             laps.add(parseTime(s));
         }
         return laps;

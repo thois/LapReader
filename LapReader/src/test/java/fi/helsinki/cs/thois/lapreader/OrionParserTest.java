@@ -34,7 +34,6 @@ public class OrionParserTest {
         ArrayList<Integer> laps = new ArrayList<>();
         laps.add(15250);
         laps.add(15070);
-        Parser parser = new OrionParser();
         List<Integer> parsedLaps = parser.parse(str);
         assert(laps.equals(parsedLaps));
     }
@@ -57,9 +56,15 @@ public class OrionParserTest {
         parser.parse(str);
     }
     
-  @Test(expected = NumberFormatException.class)
+    @Test(expected = NumberFormatException.class)
     public void testIllegalTimeFormat3() throws ParseException {
         String[] str = {"01Lap 00ms00 00m15s25","02 Lap00m15s00 00m30s32"};
+        parser.parse(str);
+    }
+    
+    @Test(expected = ParseException.class)
+    public void testIllegalFormat() throws ParseException {
+        String[] str = {"01Lap","02 Lap00m15s00 00m30s32"};
         parser.parse(str);
     }
 }

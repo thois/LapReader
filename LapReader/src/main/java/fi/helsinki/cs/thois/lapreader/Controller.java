@@ -131,7 +131,7 @@ public class Controller {
      * @throws ParseException if parsing time or laptimes fails
      * @throws SQLException if database operation fails
      */
-    public void addHeat(TestDay day, String[] lines, String time, Parser parser) throws
+    public Heat addHeat(TestDay day, String[] lines, String time, Parser parser) throws
             ParseException, SQLException {
         DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h;
@@ -149,6 +149,8 @@ public class Controller {
         resultDao.create(result);
         h.setResult(result);
         heatDao.update(h);
+        heatDao.refresh(h);
+        return h;
     }
     
     
