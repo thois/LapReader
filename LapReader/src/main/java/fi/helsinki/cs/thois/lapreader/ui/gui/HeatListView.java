@@ -7,6 +7,7 @@ import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.HeatTableModel;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,12 +32,8 @@ public class HeatListView extends ListView {
         jTable1.setModel(model);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.day = day;
-        //TODO make clean actionListener
-        super.showButton.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        showButtonActionPerformed(evt);
-    }
-});
+        ActionListener listener = new ListViewActionListener(this);
+        showButton.addActionListener(listener);
         Object[] columnNames = {"Time", "Result"};
         super.columnNames = columnNames;
         getListTitle().setText("Heats in " + this.day + " :");
@@ -52,7 +49,8 @@ public class HeatListView extends ListView {
         }
     }
     
-    protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    @Override
+    public void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < heats.length) {
             showHeat(heats[id]);

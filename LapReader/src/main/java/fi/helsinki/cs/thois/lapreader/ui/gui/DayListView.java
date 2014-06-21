@@ -5,6 +5,7 @@ import fi.helsinki.cs.thois.lapreader.model.Model;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.DayTableModel;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -21,12 +22,8 @@ public class DayListView extends ListView {
         DefaultTableModel model = new DayTableModel();
         model.addTableModelListener(new ListViewTableModelListener(this));
         jTable1.setModel(model);
-        //TODO make clean actionListener
-        super.showButton.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        showButtonActionPerformed(evt);
-    }
-});
+        ActionListener listener = new ListViewActionListener(this);
+        showButton.addActionListener(listener);
         Object[] columnNames = {"Date", "Heats"};
         super.columnNames = columnNames;
         getListTitle().setText("Dates");
@@ -47,11 +44,11 @@ public class DayListView extends ListView {
         }
     }
     
-    protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    @Override
+    public void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < days.size()) {
                 openDay(days.get(id));
-                displaySqlError();
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing day!");
         }

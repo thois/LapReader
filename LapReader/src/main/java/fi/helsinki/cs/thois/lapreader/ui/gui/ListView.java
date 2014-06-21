@@ -3,6 +3,7 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.Model;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,11 +57,6 @@ public class ListView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         showButton.setText("Show");
-        showButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showButtonActionPerformed(evt);
-            }
-        });
 
         addButton.setText("Add");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -131,10 +127,6 @@ public class ListView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_showButtonActionPerformed
-
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.addRow(new Object[columnNames.length]);
@@ -147,6 +139,9 @@ public class ListView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    public void showButtonActionPerformed(ActionEvent evt) {
+    }
+    
     public void setController(Controller controller) {
         this.controller = controller;
     }
