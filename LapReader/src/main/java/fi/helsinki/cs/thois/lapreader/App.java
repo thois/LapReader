@@ -21,6 +21,7 @@ public class App
         Controller controller;
         try {
             controller = new Controller(databaseUrl);
+            controller.foreigKeysOn();
         } catch (SQLException ex) {
             System.out.println("Virhe tietokannan " + databaseUrl + " avaamisessa");
             return;

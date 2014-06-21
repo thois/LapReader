@@ -66,12 +66,6 @@ public class ListView extends javax.swing.JFrame {
         });
 
         deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
         listTitle.setText("Title");
 
         jMenu1.setText("File");
@@ -135,10 +129,9 @@ public class ListView extends javax.swing.JFrame {
         editor.requestFocusInWindow();
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
+    public void deleteButtonActionPerformed(ActionEvent evt) {
+    }
+    
     public void showButtonActionPerformed(ActionEvent evt) {
     }
     

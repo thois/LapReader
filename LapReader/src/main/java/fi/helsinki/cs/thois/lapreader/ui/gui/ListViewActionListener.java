@@ -13,7 +13,13 @@ public class ListViewActionListener implements ActionListener {
     @Override
      public void actionPerformed(java.awt.event.ActionEvent evt) {
          JButton button = (JButton)evt.getSource();
-         if (button.getText().equals("Show"))
-            view.showButtonActionPerformed(evt);
+        switch (button.getText()) {
+            case "Show":
+                view.showButtonActionPerformed(evt);
+                break;
+            case "Delete":
+                view.deleteButtonActionPerformed(evt);
+                break;
+        }
     }
 }

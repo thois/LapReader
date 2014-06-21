@@ -26,7 +26,7 @@ public class Heat extends Model implements Serializable {
      * Parent
      */
     @ManyToOne
-    @DatabaseField(foreign=true)
+    @DatabaseField(foreign=true, columnDefinition = "integer references testday(id) on delete cascade")
     private TestDay testDay;
     
     /**
@@ -39,7 +39,7 @@ public class Heat extends Model implements Serializable {
      * Result completed in the heat
      */
     @OneToOne
-    @DatabaseField(foreign=true, foreignAutoRefresh=true)
+    @DatabaseField(foreign=true, foreignAutoRefresh=true, columnDefinition = "integer references result(id) on delete cascade")
     private Result result;
     
     /**

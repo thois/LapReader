@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.helsinki.cs.thois.lapreader;
 
 import com.j256.ormlite.dao.*;
@@ -48,7 +44,6 @@ public class Controller {
         
         connectionSource =
             new JdbcConnectionSource(databaseUrl);
-        
         testDayDao =
             DaoManager.createDao(connectionSource, TestDay.class);
         heatDao =
@@ -57,6 +52,14 @@ public class Controller {
             DaoManager.createDao(connectionSource, Lap.class);
         resultDao =
             DaoManager.createDao(connectionSource, Result.class);
+
+    }
+    
+    public void foreigKeysOn() throws SQLException {
+        testDayDao.executeRaw("PRAGMA foreign_keys = true;");
+        heatDao.executeRaw("PRAGMA foreign_keys = true;");
+        lapDao.executeRaw("PRAGMA foreign_keys = true;");
+        resultDao.executeRaw("PRAGMA foreign_keys = true;");
         createTablesIfNotExists();
     }
     
@@ -101,7 +104,11 @@ public class Controller {
      * @throws SQLException if database operation fails
      */
     public TestDay addDay(String date) throws ParseException, SQLException {
-        TestDay d = new TestDay(df.parse(date));
+        TestDay d;
+        if (date == null)
+            d = new TestDay();
+        else
+            d = new TestDay(df.parse(date));
         testDayDao.create(d);
         return d;
     }
@@ -110,6 +117,10 @@ public class Controller {
         day.setDay(df.parse(date));
         testDayDao.update(day);
         testDayDao.refresh(day);
+    }
+    
+    public void deleteDay(TestDay day) throws SQLException {
+        testDayDao.delete(day);
     }
     
     /**
@@ -167,6 +178,10 @@ public class Controller {
         heat.setTime(tf.parse(time));
         heatDao.update(heat);
         heatDao.refresh(heat);
+    }
+    
+    public void deleteHeat(Heat heat) throws SQLException {
+        heatDao.delete(heat);
     }
     
    /**

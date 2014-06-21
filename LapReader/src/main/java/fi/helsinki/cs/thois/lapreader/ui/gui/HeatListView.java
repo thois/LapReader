@@ -4,6 +4,7 @@ import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,6 +34,7 @@ public class HeatListView extends ListView {
         this.day = day;
         ActionListener listener = new ListViewActionListener(this);
         showButton.addActionListener(listener);
+        deleteButton.addActionListener(listener);
         Object[] columnNames = {"Time", "Result"};
         super.columnNames = columnNames;
         getListTitle().setText("Heats in " + this.day + " :");
@@ -51,6 +55,21 @@ public class HeatListView extends ListView {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < heats.length) {
             showHeat(heats[id]);
+        } else {
+            JOptionPane.showMessageDialog(this, "Select first existing heat!");
+        }
+    }
+    
+    @Override
+    public void deleteButtonActionPerformed(ActionEvent evt) {
+        int id = getjTable1().getSelectedRow();
+        if (id >= 0 && id < heats.length) {
+            try {
+                controller.deleteHeat(heats[id]);
+                refreshData();
+            } catch (SQLException ex) {
+                displaySqlError();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing heat!");
         }

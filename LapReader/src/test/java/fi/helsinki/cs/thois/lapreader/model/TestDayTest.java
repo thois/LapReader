@@ -14,10 +14,7 @@ public class TestDayTest {
     @Test
     public void testTestDayCreation() throws ParseException {
         TestDay testDay = new TestDay();
-        testDay = new TestDay("");
-        testDay = new TestDay((String)null);
         testDay = new TestDay((Date)null);
-        
         Date day = df.parse("24.12.2013");
         testDay = new TestDay(day);
         assertEquals(day, testDay.getDay());
@@ -28,7 +25,7 @@ public class TestDayTest {
     public void testTestDayCreationWithString() throws ParseException {
         Date today = new Date();
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");   
-        TestDay testDay = new TestDay(df.format(today));
+        TestDay testDay = new TestDay(today);
         assert(testDay.getDay().getDate() == today.getDate());
         assert(testDay.getDay().getYear() == today.getYear());
         assert(testDay.getDay().getMonth() == today.getMonth());
@@ -37,14 +34,14 @@ public class TestDayTest {
     @Test
     public void testToString() throws ParseException {
         String date = "12.12.2012";
-        TestDay testDay = new TestDay(date);
+        TestDay testDay = new TestDay(df.parse(date));
         assertEquals(testDay.toString(), date);
     }
     
     @Test
     public void testGetRowData() throws ParseException {
         String date = "12.12.2012";
-        TestDay testDay = new TestDay(date);
+        TestDay testDay = new TestDay(df.parse(date));
         Object[] row = {testDay.toString(), 0};
         Assert.assertArrayEquals(row, testDay.getRowData());
     }

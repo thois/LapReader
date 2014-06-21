@@ -25,7 +25,7 @@ public class Lap extends Model implements Serializable {
      * Parent
      */
     @ManyToOne
-    @DatabaseField(foreign=true)
+    @DatabaseField(foreign=true, columnDefinition = "integer references heat(id) on delete cascade")
     private Heat heat;
     
     /**
