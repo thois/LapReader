@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class ControllerTest {
     Parser parser = new OrionParser();
-    String databaseUrl = "jdbc:h2:mem:account";
+    String databaseUrl = "jdbc:sqlite:file:memdb1?mode=memory&cache=shared";
     Controller controller;
     
     @Before
