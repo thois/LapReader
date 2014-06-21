@@ -105,7 +105,7 @@ public class Controller {
      */
     public TestDay addDay(String date) throws ParseException, SQLException {
         TestDay d;
-        if (date == null)
+        if (date == null || date.isEmpty())
             d = new TestDay();
         else
             d = new TestDay(df.parse(date));

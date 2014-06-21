@@ -17,12 +17,13 @@ import org.junit.Test;
 
 public class ControllerTest {
     Parser parser = new OrionParser();
-    String databaseUrl = "jdbc:sqlite:file:memdb1?mode=memory&cache=shared";
+    String databaseUrl = "jdbc:sqlite::memory:";
     Controller controller;
     
     @Before
     public void initialize() throws SQLException {
         controller = new Controller(databaseUrl);
+        controller.foreigKeysOn();
     }
     
     @After

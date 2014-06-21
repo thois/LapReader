@@ -28,6 +28,7 @@ public class Result extends Model implements Serializable {
     int laps;
     
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
