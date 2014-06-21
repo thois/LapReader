@@ -9,13 +9,10 @@ import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.HeatTableModel;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -46,16 +43,19 @@ public class HeatListView extends ListView {
         refreshData();
     }
     
-        protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void showHeat(Heat heat) {
+        try {
+            LapListView lapListView = new LapListView(controller, heat);
+            lapListView.setVisible(true);
+        } catch (SQLException ex) {
+            displaySqlError();
+        }
+    }
+    
+    protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < heats.length) {
-            try {
-                LapListView dayListView = new LapListView(controller,
-                        heats[id]);            
-                dayListView.setVisible(true);
-            } catch (SQLException ex) {
-                displaySqlError();
-            }
+            showHeat(heats[id]);
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing heat!");
         }
@@ -79,15 +79,23 @@ public class HeatListView extends ListView {
             return;
         try {
             try {
-                controller.addHeatFromFile(day, file.getPath(), time, new OrionParser());
+                Heat createdHeat = controller.addHeatFromFile(day,
+                        file.getPath(), time, new OrionParser());
+                showHeat(createdHeat);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error in reading file!");
             }
         } catch (ParseException ex) {
             //TODO start editing cell without firing cellChanged event
             //jTable1.editCellAt(row, 0);
-            JOptionPane.showMessageDialog(this, "Fill date in form dd.MM.yyyy");
+            JOptionPane.showMessageDialog(this, "Fill time in format HH.mm");
         }
+    }
+    
+    private void modifyHeat(int id) {
+        //TODO modify heat
+        JOptionPane.showMessageDialog(this,
+                "Modifying existing heat not yet implemented");
     }
     
     @Override
@@ -96,10 +104,7 @@ public class HeatListView extends ListView {
             return;
         try {
             if (row < heats.length) {
-                //TODO modify day
-                JOptionPane.showMessageDialog(this,
-                        "Modifying existing heat not yet implemented");
-                return;
+                modifyHeat(row);
             } else {
                 addHeat((String)jTable1.getValueAt(row, 0));
             }

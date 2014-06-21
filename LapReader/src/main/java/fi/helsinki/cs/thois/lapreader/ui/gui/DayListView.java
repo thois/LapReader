@@ -38,40 +38,50 @@ public class DayListView extends ListView {
         super.refreshData(new ArrayList<Model>(days));
     }
     
+    private void openDay(TestDay day) {
+        try {
+            HeatListView heatListView = new HeatListView(controller, day);
+            heatListView.setVisible(true);
+        } catch (SQLException ex) {
+            displaySqlError();
+        }
+    }
+    
     protected void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < days.size()) {
-            try {
-                HeatListView heatListView = new HeatListView(controller,
-                        days.get(id));            
-                heatListView.setVisible(true);
-            } catch (SQLException ex) {
+                openDay(days.get(id));
                 displaySqlError();
-            }
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing day!");
         }
     }
 
+    private void addDay(String day) throws SQLException {
+        try {
+            openDay(controller.addDay(day));
+        } catch (ParseException ex) {
+            //TODO start editing cell without firing cellChanged event
+            //jTable1.editCellAt(row, 0);
+            JOptionPane.showMessageDialog(this, "Fill date in form dd.MM.yyyy");
+        }
+    }
+    
+    private void modifyDay(int id) {
+        //TODO modify day
+        JOptionPane.showMessageDialog(this,
+                "Modifying existing day not yet implemented");
+    }
+    
     @Override
     public void rowChangedAction(int row) {
         if (row < 0)
             return;
         try {
             if (row < days.size()) {
-                //TODO modify day
-                JOptionPane.showMessageDialog(this,
-                        "Modifying existing day not yet implemented");
-                return;
-            } else {
-                try {
-                    controller.addDay((String)jTable1.getValueAt(row, 0));
-                } catch (ParseException ex) {
-                    //TODO start editing cell without firing cellChanged event
-                    //jTable1.editCellAt(row, 0);
-                    JOptionPane.showMessageDialog(this, "Fill date in form dd.MM.yyyy");
-                }
-            }
+                modifyDay(row);
+            } else
+                addDay((String)jTable1.getValueAt(row, 0));
             refreshData();
         } catch (SQLException ex) {
             displaySqlError();

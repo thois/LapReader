@@ -116,17 +116,17 @@ public class Controller {
      * @throws ParseException if parsing time or file fails
      * @throws SQLException  if database operation fails
      */
-    public void addHeatFromFile(TestDay day, String filename, String time,
+    public Heat addHeatFromFile(TestDay day, String filename, String time,
             Parser parser)
             throws IOException, ParseException, SQLException {
-        addHeatFromFile(day, Paths.get(filename), time, parser);
+        return addHeatFromFile(day, Paths.get(filename), time, parser);
     }
     
-    public void addHeatFromFile(TestDay day, Path path, String time,
+    public Heat addHeatFromFile(TestDay day, Path path, String time,
             Parser parser) throws IOException, ParseException, SQLException {
         List<String> lines = Files.readAllLines(path,
                 StandardCharsets.UTF_8);
-        addHeat(day, lines.toArray(new String[0]), time, parser);
+        return addHeat(day, lines.toArray(new String[0]), time, parser);
     }
     
     /**
