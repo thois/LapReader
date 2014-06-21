@@ -13,13 +13,9 @@ import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.parser.Parser;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.List;
 
 /**
@@ -39,6 +35,9 @@ public class Controller {
     Dao<Heat, String> heatDao;
     Dao<Lap, String> lapDao;
     Dao<Result, String> resultDao;
+    
+    DateFormat tf = new SimpleDateFormat("HH:mm");
+    DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
     
     /**
      * Consturctor, that creates all daos and databases
@@ -102,9 +101,15 @@ public class Controller {
      * @throws SQLException if database operation fails
      */
     public TestDay addDay(String date) throws ParseException, SQLException {
-        TestDay d = new TestDay(date);
+        TestDay d = new TestDay(df.parse(date));
         testDayDao.create(d);
         return d;
+    }
+    
+    public void updateDay(TestDay day, String date) throws SQLException, ParseException {
+        day.setDay(df.parse(date));
+        testDayDao.update(day);
+        testDayDao.refresh(day);
     }
     
     /**
@@ -139,12 +144,11 @@ public class Controller {
      */
     public Heat addHeat(TestDay day, String[] lines, String time, Parser parser) throws
             ParseException, SQLException {
-        DateFormat df = new SimpleDateFormat("HH:mm");
         Heat h;
         if (time == null||time.isEmpty())
             h = new Heat(null, day);
         else
-            h = new Heat(df.parse(time), day);
+            h = new Heat(tf.parse(time), day);
         List<Integer> laps = parser.parse(lines);
         heatDao.create(h);
         for (int i = 0; i < laps.size(); i++) {
@@ -159,6 +163,11 @@ public class Controller {
         return h;
     }
     
+    public void updateHeat(Heat heat, String time) throws SQLException, ParseException {
+        heat.setTime(tf.parse(time));
+        heatDao.update(heat);
+        heatDao.refresh(heat);
+    }
     
    /**
      * Get all heats connected to day from database

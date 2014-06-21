@@ -54,24 +54,9 @@ public class TestDay extends Model implements Serializable {
      * @param day as a date object
      */
     public TestDay(Date day) {
-        if (day == null) {
+        if (day == null)
             day = new Date();
-        }
         this.day = day;
-    }
-    
-    /**
-     * Constructor for creating day from date string
-     * @param date as a "dd.MM.yyyy" string
-     * @throws ParseException 
-     */
-    public TestDay(String date) throws ParseException {
-        if (date == null || date.isEmpty()) {
-            day = new Date();
-        } else {
-            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-            day = df.parse(date);
-        }
     }
     
     public void setId(int id) {

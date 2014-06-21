@@ -1,12 +1,9 @@
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
-import fi.helsinki.cs.thois.lapreader.model.Heat;
-import fi.helsinki.cs.thois.lapreader.model.Model;
-import fi.helsinki.cs.thois.lapreader.model.TestDay;
+import fi.helsinki.cs.thois.lapreader.model.*;
 import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
-import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.HeatTableModel;
-import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
+import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
@@ -90,10 +87,14 @@ public class HeatListView extends ListView {
         }
     }
     
-    private void modifyHeat(int id) {
-        //TODO modify heat
-        JOptionPane.showMessageDialog(this,
-                "Modifying existing heat not yet implemented");
+    private void modifyHeat(int id) throws SQLException {
+        Heat heat = heats[id];
+        try {
+            controller.updateHeat(heat, (String)jTable1.getValueAt(id, 0));
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this,
+                "Time must be in format HH:mm");
+        }
     }
     
     @Override

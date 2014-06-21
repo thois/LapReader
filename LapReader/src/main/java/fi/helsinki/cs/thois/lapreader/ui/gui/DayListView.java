@@ -1,10 +1,8 @@
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import fi.helsinki.cs.thois.lapreader.Controller;
-import fi.helsinki.cs.thois.lapreader.model.Model;
-import fi.helsinki.cs.thois.lapreader.model.TestDay;
-import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.DayTableModel;
-import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
+import fi.helsinki.cs.thois.lapreader.model.*;
+import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.*;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -64,10 +62,14 @@ public class DayListView extends ListView {
         }
     }
     
-    private void modifyDay(int id) {
-        //TODO modify day
-        JOptionPane.showMessageDialog(this,
-                "Modifying existing day not yet implemented");
+    private void modifyDay(int id) throws SQLException {
+        TestDay day = days.get(id);
+        try {
+            controller.updateDay(day, (String)jTable1.getValueAt(id, 0));
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this,
+                "Date must be in format dd.MM.yyyy");
+        }
     }
     
     @Override

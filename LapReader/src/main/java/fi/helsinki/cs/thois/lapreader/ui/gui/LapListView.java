@@ -2,9 +2,7 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import fi.helsinki.cs.thois.lapreader.Controller;
-import fi.helsinki.cs.thois.lapreader.model.Heat;
-import fi.helsinki.cs.thois.lapreader.model.Lap;
-import fi.helsinki.cs.thois.lapreader.model.Model;
+import fi.helsinki.cs.thois.lapreader.model.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
