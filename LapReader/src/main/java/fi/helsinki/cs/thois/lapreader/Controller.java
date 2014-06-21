@@ -14,6 +14,7 @@ import fi.helsinki.cs.thois.lapreader.parser.Parser;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -118,7 +119,12 @@ public class Controller {
     public void addHeatFromFile(TestDay day, String filename, String time,
             Parser parser)
             throws IOException, ParseException, SQLException {
-        List<String> lines = Files.readAllLines(Paths.get(filename),
+        addHeatFromFile(day, Paths.get(filename), time, parser);
+    }
+    
+    public void addHeatFromFile(TestDay day, Path path, String time,
+            Parser parser) throws IOException, ParseException, SQLException {
+        List<String> lines = Files.readAllLines(path,
                 StandardCharsets.UTF_8);
         addHeat(day, lines.toArray(new String[0]), time, parser);
     }

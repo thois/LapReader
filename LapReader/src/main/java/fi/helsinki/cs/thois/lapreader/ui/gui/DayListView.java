@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,7 +20,7 @@ public class DayListView extends ListView {
         super(controller);
         DefaultTableModel model = new DayTableModel();
         model.addTableModelListener(new ListViewTableModelListener(this));
-        super.jTable1.setModel(model);
+        jTable1.setModel(model);
         //TODO make clean actionListener
         super.showButton.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,10 +53,10 @@ public class DayListView extends ListView {
         }
     }
 
+    @Override
     public void rowChangedAction(int row) {
         if (row < 0)
             return;
-        System.out.println("Updated " + row);
         try {
             if (row < days.size()) {
                 //TODO modify day

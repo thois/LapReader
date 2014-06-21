@@ -1,6 +1,5 @@
 package fi.helsinki.cs.thois.lapreader.ui.gui.tableModel;
 
-import fi.helsinki.cs.thois.lapreader.ui.gui.DayListView;
 import fi.helsinki.cs.thois.lapreader.ui.gui.ListView;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -9,7 +8,7 @@ public class ListViewTableModelListener implements TableModelListener {
     
     ListView view;
 
-    public ListViewTableModelListener(DayListView view) {
+    public ListViewTableModelListener(ListView view) {
     this.view = view;
     }
 
