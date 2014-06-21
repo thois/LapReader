@@ -33,7 +33,7 @@ public class LapTest {
         Lap l = new Lap();
         l.setTime(12345);
         l.setLapNumber(25);
-        Object[] row = {25, 12345};
+        Object[] row = {25, l.toString()};
         Assert.assertArrayEquals(row, l.getRowData());
     }
     

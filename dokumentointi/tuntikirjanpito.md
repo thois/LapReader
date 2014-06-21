@@ -10,3 +10,5 @@
 * 12.06.2014 1,5h Korjattu resultin toiminta
 * 13.06.2014 2h Parserin modularisointi ja refaktorointia
 * 14.06.2014 5h Aloitettu GUI ja kirjoitettu lisää javadoccia
+* 20.06.2014 6h	GUI edistynyt, rivi- ja mutaatiokattavuutta parannettu testeissä
+

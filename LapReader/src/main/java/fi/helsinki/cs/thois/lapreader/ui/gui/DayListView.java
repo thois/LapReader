@@ -4,10 +4,15 @@ import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.Model;
 import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.DayTableModel;
+import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.ListViewTableModelListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class DayListView extends ListView {
     
@@ -15,7 +20,9 @@ public class DayListView extends ListView {
     
     public DayListView(Controller controller) throws SQLException {
         super(controller);
-        super.jTable1.setModel(new DayTableModel());
+        DefaultTableModel model = new DayTableModel();
+        model.addTableModelListener(new ListViewTableModelListener(this));
+        super.jTable1.setModel(model);
         //TODO make clean actionListener
         super.showButton.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -28,7 +35,7 @@ public class DayListView extends ListView {
         refreshData();
     }
     
-    public void refreshData() throws SQLException {
+    private void refreshData() throws SQLException {
         days = controller.getDays();
         super.refreshData(new ArrayList<Model>(days));
     }
@@ -37,14 +44,39 @@ public class DayListView extends ListView {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < days.size()) {
             try {
-                HeatListView dayListView = new HeatListView(controller,
+                HeatListView heatListView = new HeatListView(controller,
                         days.get(id));            
-                dayListView.setVisible(true);
+                heatListView.setVisible(true);
             } catch (SQLException ex) {
                 displaySqlError();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing day!");
+        }
+    }
+
+    public void rowChangedAction(int row) {
+        if (row < 0)
+            return;
+        System.out.println("Updated " + row);
+        try {
+            if (row < days.size()) {
+                //TODO modify day
+                JOptionPane.showMessageDialog(this,
+                        "Modifying existing day not yet implemented");
+                return;
+            } else {
+                try {
+                    controller.addDay((String)jTable1.getValueAt(row, 0));
+                } catch (ParseException ex) {
+                    //TODO start editing cell without firing cellChanged event
+                    //jTable1.editCellAt(row, 0);
+                    JOptionPane.showMessageDialog(this, "Fill date in form dd.MM.yyyy");
+                }
+            }
+            refreshData();
+        } catch (SQLException ex) {
+            displaySqlError();
         }
     }
     

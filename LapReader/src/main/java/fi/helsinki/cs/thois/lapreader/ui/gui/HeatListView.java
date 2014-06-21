@@ -47,7 +47,7 @@ public class HeatListView extends ListView {
         }
     }
     
-    public void refreshData() throws SQLException {
+    private void refreshData() throws SQLException {
         heats = controller.getHeats(day).toArray(new Heat[0]);
         super.refreshData(new ArrayList<Model>(Arrays.asList(heats)));
     }

@@ -190,6 +190,9 @@ public class ListView extends javax.swing.JFrame {
                 "Database error! Restart app and try again.");
     }
     
+    public void rowChangedAction(int row) {
+    }
+    
     /**
      * @param args the command line arguments
      */

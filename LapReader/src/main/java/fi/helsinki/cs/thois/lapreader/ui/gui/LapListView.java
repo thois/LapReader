@@ -27,7 +27,7 @@ public class LapListView extends ListView {
         refreshData();
     }
     
-    public void refreshData() throws SQLException {
+    private void refreshData() throws SQLException {
         laps = controller.getLaps(heat);
         super.refreshData(new ArrayList<Model>(laps));
     }
