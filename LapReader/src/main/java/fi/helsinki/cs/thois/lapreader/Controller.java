@@ -242,4 +242,12 @@ public class Controller {
         QueryBuilder<Heat, String> heatQb = heatDao.queryBuilder();
         return heatQb.where().eq("result_id", result.getId()).queryForFirst();
     }
+    
+    public TestDay getTestDayById(int id) throws SQLException {
+        return testDayDao.queryForId(""+id);
+    }
+    
+    public Heat getHeatById(int id) throws SQLException {
+        return heatDao.queryForId(""+id);
+    }
 }

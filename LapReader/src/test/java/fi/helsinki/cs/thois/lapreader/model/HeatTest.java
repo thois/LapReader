@@ -42,4 +42,19 @@ public class HeatTest {
         Assert.assertArrayEquals(row, h.getRowData());
     }
     
+    @Test
+    public void testTotalTimes() throws ParseException {
+        Lap[] laps = new Lap[3];
+        for (int i = 0; i < laps.length; i++)
+            laps[i] = new Lap(i*1000+(i+2)*100+15*i, i+1, null);
+        Heat h = createHeat();
+        Result[] totalTimes = h.totalTimes(laps);
+        assert(laps.length == totalTimes.length);
+        int time = 0;
+        for (int i = 0; i < laps.length; i++) {
+            time += laps[i].getTime();
+            assert(time == totalTimes[i].getTime());
+        }
+    }
+    
 }

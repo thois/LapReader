@@ -8,7 +8,9 @@ import fi.helsinki.cs.thois.lapreader.model.TestDay;
 import fi.helsinki.cs.thois.lapreader.parser.OrionParser;
 import fi.helsinki.cs.thois.lapreader.parser.Parser;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import junit.framework.Assert;
 import org.junit.After;
@@ -19,6 +21,8 @@ public class ControllerTest {
     Parser parser = new OrionParser();
     String databaseUrl = "jdbc:sqlite::memory:";
     Controller controller;
+    DateFormat tf = new SimpleDateFormat("HH:mm");
+    DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
     
     @Before
     public void initialize() throws SQLException {
@@ -80,5 +84,86 @@ public class ControllerTest {
         assert(heats.length == 1);
     }
     
+    @Test
+    public void testUpdateDay() throws ParseException, SQLException {
+        TestDay addedDay = controller.addDay(null);
+        int id = addedDay.getId();
+        controller.updateDay(addedDay, "15.12.2013");
+        TestDay dayFromDatabase = controller.getTestDayById(id);
+        Assert.assertEquals("15.12.2013", df.format(dayFromDatabase.getDay()));  
+    }
     
+    @Test
+    public void testDeleteDay() throws SQLException, ParseException {
+        TestDay addedDay = controller.addDay(null);
+        int id = addedDay.getId();
+        controller.deleteDay(addedDay);
+        TestDay dayFromDatabase = controller.getTestDayById(id);
+        Assert.assertEquals(null, dayFromDatabase);
+    }
+    
+    @Test
+    public void testGetTestDayById() throws SQLException, ParseException {
+        TestDay addedDay = controller.addDay(null);
+        TestDay dayFromDatabase = controller.getTestDayById(addedDay.getId());
+        Assert.assertEquals(addedDay.getId(), dayFromDatabase.getId());
+        Assert.assertEquals(addedDay.toString(), dayFromDatabase.toString());
+    }
+    
+    private Heat createHeat() throws ParseException, SQLException {
+        TestDay day = controller.addDay("15.06.2013");
+        String[] lines = {"01Lap  00m15s18  04m34s43", "01Lap  00m16s17  04m34s43"};
+        return controller.addHeat(day, lines, "16:53", parser);
+    }
+    
+    @Test
+    public void testUpdateHeatTime() throws ParseException, SQLException {
+        Heat heat = createHeat();
+        controller.updateHeat(heat, "15:32");
+        Assert.assertEquals("15:32", tf.format(heat.getTime()));
+        Heat heatFromDatabase = controller.getHeatById(heat.getId());
+        Assert.assertEquals(heat.toString(), heatFromDatabase.toString());
+    }
+    
+    @Test
+    public void testUpdateHeat() throws ParseException, SQLException {
+        Heat heat = createHeat();
+        heat.setSetupChanges("abcd");
+        heat.setTrackTemp(15);
+        controller.updateHeat(heat);
+        Heat heatFromDatabase = controller.getHeatById(heat.getId());
+        Assert.assertEquals("abcd", heatFromDatabase.getSetupChanges());
+        assert(heatFromDatabase.getTrackTemp() == 15);
+    }
+    
+    @Test
+    public void testGetHeatById() throws ParseException, SQLException {
+        Heat heat = createHeat();
+        Heat heatFromDatabase = controller.getHeatById(heat.getId());
+        Assert.assertEquals(heat.toString(), heatFromDatabase.toString());
+    }
+    
+    @Test
+    public void testDeleteHeat() throws ParseException, SQLException {
+        Heat heat = createHeat();
+        controller.deleteHeat(heat);
+        Heat heatFromDatabase = controller.getHeatById(heat.getId());
+        Assert.assertEquals(null, heatFromDatabase);
+    }
+    
+    @Test
+    public void testGetBestLapFromHeat() throws ParseException, SQLException {
+        Heat heat = createHeat();
+        Lap best = controller.getBestLap(heat);
+        assert(best.getTime() == 15800);
+        assert(best.getLapNumber() == 1);
+    }
+    
+    @Test
+    public void testGetBestLapFromDay() throws ParseException, SQLException {
+        TestDay day = controller.addDay("11.06.2013");
+        String[] lines = {"01Lap  00m37s16  04m34s43"};
+        createHeat();
+        Lap best = controller.getBestLap(day);
+    }
 }
