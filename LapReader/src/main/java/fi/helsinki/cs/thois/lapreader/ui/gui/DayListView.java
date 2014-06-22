@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -31,7 +29,6 @@ public class DayListView extends ListView {
         super.columnNames = columnNames;
         getListTitle().setText("Dates");
         refreshData();
-        setColumnWidths();
     }
     
     private void setColumnWidths() {
@@ -47,7 +44,7 @@ public class DayListView extends ListView {
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         addBestLaps(model);
         addBestResults(model);
-
+        setColumnWidths();
     }
     
     private void addBestLaps(DefaultTableModel model) throws SQLException {

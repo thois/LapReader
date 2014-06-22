@@ -86,7 +86,7 @@ public class HeatListView extends ListView {
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         addBestLaps(model);
         addAvgs(model);
-        jTable1.getColumnModel().getColumn(1).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
     }
     
     private void addBestLaps(DefaultTableModel model) throws SQLException {
