@@ -37,4 +37,16 @@ public class LapTest {
         Assert.assertArrayEquals(row, l.getRowData());
     }
     
+    @Test
+    public void testDiff() {
+        Heat heat1 = new Heat();
+        Heat heat2 = new Heat();
+        Lap lap1 = new Lap(12345, 1, heat1);
+        Lap lap2 = new Lap(45678, 2, heat1);
+        Lap diff = lap1.diff(lap2);
+        assert(diff.getLapNumber() == 1);
+        assert(diff.getTime() == -33333);
+        Assert.assertEquals(null, diff.getHeat());
+    }
+    
 }

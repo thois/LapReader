@@ -66,4 +66,13 @@ public class ResultTest {
         result = new Result(lapTimes);
         assert(result.getTime() == 5*60000);
     }
+    
+    @Test
+    public void testAvgLaptime() {
+        Result result = createResult();
+        Lap avg = result.avgLapTime();
+        assert(avg.getTime() == 15263);
+        assert(avg.getLapNumber() == 0);
+        Assert.assertEquals(null, avg.getHeat());
+    }
 }

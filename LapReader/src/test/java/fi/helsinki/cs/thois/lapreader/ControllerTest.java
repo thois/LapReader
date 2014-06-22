@@ -97,9 +97,12 @@ public class ControllerTest {
     public void testDeleteDay() throws SQLException, ParseException {
         TestDay addedDay = controller.addDay(null);
         int id = addedDay.getId();
+        String[] lines = {"01Lap  00m15s18  04m34s43"};
+        Heat heat = controller.addHeat(addedDay, lines, "16:53", parser);
         controller.deleteDay(addedDay);
         TestDay dayFromDatabase = controller.getTestDayById(id);
         Assert.assertEquals(null, dayFromDatabase);
+        Assert.assertEquals(null, controller.getHeatById(heat.getId()));
     }
     
     @Test
@@ -155,15 +158,45 @@ public class ControllerTest {
     public void testGetBestLapFromHeat() throws ParseException, SQLException {
         Heat heat = createHeat();
         Lap best = controller.getBestLap(heat);
-        assert(best.getTime() == 15800);
+        assert(best.getTime() == 15180);
         assert(best.getLapNumber() == 1);
     }
     
     @Test
     public void testGetBestLapFromDay() throws ParseException, SQLException {
         TestDay day = controller.addDay("11.06.2013");
-        String[] lines = {"01Lap  00m37s16  04m34s43"};
+        String[] lines = {"01Lap  00m50s18  04m34s43",
+            "02Lap  00m37s16  04m34s43"};
+        controller.addHeat(day, lines, "16:53", parser);
+        lines[0] = "01Lap  00m05s18  04m34s43";
         createHeat();
         Lap best = controller.getBestLap(day);
+        assert(best.getTime() == 37160);
+        assert(best.getLapNumber() == 2);
+    }
+    
+    @Test
+    public void testGetBestResult() throws ParseException, SQLException {
+        TestDay day = controller.addDay("11.06.2013");
+        String[] lines = {"01Lap  00m50s18  04m34s43",
+            "02Lap  00m37s16  04m34s43"};
+        controller.addHeat(day, lines, "16:53", parser);
+        String[]lines2 = {"01Lap  00m05s18  04m34s43"};
+        controller.addHeat(day, lines2, "16:59", parser);
+        createHeat();
+        Result best = controller.getBestResult(day);
+        assert(best.getTime() == 87340);
+        assert(best.getLaps()== 2);
+    }
+    
+    @Test
+    public void getHeatByResult() throws ParseException, SQLException {
+        TestDay day = controller.addDay("11.06.2013");
+        String[] lines = {"01Lap  00m50s18  04m34s43",
+            "02Lap  00m37s16  04m34s43"};
+        controller.addHeat(day, lines, "16:53", parser);
+        Heat heat = createHeat();
+        Heat heatFromdatabase = controller.getHeatByResult(heat.getResult());
+        Assert.assertEquals(heat.toString(), heatFromdatabase.toString());
     }
 }
