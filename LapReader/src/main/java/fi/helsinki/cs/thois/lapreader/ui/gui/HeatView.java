@@ -9,11 +9,15 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -42,6 +46,7 @@ public class HeatView extends javax.swing.JFrame {
         chartPanel = new ChartPanel(chart);
         jPanel1.setLayout(new BorderLayout());
         jPanel1.add(chartPanel, BorderLayout.NORTH);
+        jLabelTrackRecord.setVisible(false);
     }
     
     /**
@@ -62,7 +67,7 @@ public class HeatView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaSetupChanges = new javax.swing.JTextArea();
         saveButton = new javax.swing.JButton();
-        jLabelbestLap = new javax.swing.JLabel();
+        jLabelBestLap = new javax.swing.JLabel();
         jLabelAvg = new javax.swing.JLabel();
         jLabelTrackRecord = new javax.swing.JLabel();
         jLabelTrack = new javax.swing.JLabel();
@@ -114,7 +119,7 @@ public class HeatView extends javax.swing.JFrame {
             }
         });
 
-        jLabelbestLap.setText("Best Lap:  15.560 in lap 5");
+        jLabelBestLap.setText("Best Lap:  15.560 in lap 5");
 
         jLabelAvg.setText("Average: 16.580 ");
 
@@ -170,7 +175,7 @@ public class HeatView extends javax.swing.JFrame {
                                     .addComponent(jTextFieldTrackTemp))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelbestLap)
+                                    .addComponent(jLabelBestLap)
                                     .addComponent(jLabelAvg)
                                     .addComponent(jLabelTrack)
                                     .addComponent(jLabelCar)
@@ -218,7 +223,7 @@ public class HeatView extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelbestLap)
+                        .addComponent(jLabelBestLap)
                         .addGap(4, 4, 4)
                         .addComponent(jLabelAvg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -236,9 +241,42 @@ public class HeatView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
+        heat.setSetupChanges(jTextAreaSetupChanges.getText());
+        //TODO refactor dublicate code to own method
+        if (!jTextFieldTrackTemp.getText().isEmpty())
+            try {
+                heat.setTrackTemp(Integer.parseInt(jTextFieldTrackTemp.getText()));
+            } catch (NumberFormatException exp) {
+                jTextFieldTrackTemp.requestFocus();
+                displayNumberFormatError();
+                return;
+            }
+        else
+            heat.setTrackTemp(null);
+        if (!jTextFieldAirTemp.getText().isEmpty())
+            try {
+                heat.setAirTemp(Integer.parseInt(jTextFieldAirTemp.getText()));
+            } catch (NumberFormatException exp) {
+                jTextFieldAirTemp.requestFocus();
+                displayNumberFormatError();
+                return;
+            }
+        else
+            heat.setAirTemp(null);
+        try {
+            controller.updateHeat(heat);
+        } catch (SQLException ex) {
+            displaySqlError();
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Additional data saved!");
     }//GEN-LAST:event_saveButtonActionPerformed
-
+    
+    private void displayNumberFormatError() {
+        JOptionPane.showMessageDialog(this,
+                "Please write only numbers to temp. Data not saved!");
+    }
+    
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
         if (models == null) {
@@ -257,7 +295,19 @@ public class HeatView extends javax.swing.JFrame {
         Object[][] data = constructTable(models, columnNames.length);
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
+        refreshAdditionalData();
         refreshPlot();
+    }
+    
+    protected void refreshAdditionalData() throws SQLException {
+        jTextAreaSetupChanges.setText(heat.getSetupChanges());
+        if (heat.getTrackTemp() != null)
+            jTextFieldAirTemp.setText(""+heat.getAirTemp());
+        if (heat.getAirTemp() != null)
+            jTextFieldTrackTemp.setText(""+heat.getTrackTemp());
+        jLabelAvg.setText("Average: " + heat.getResult().avgLapTime());
+        Lap best = controller.getBestLap(heat);
+        jLabelBestLap.setText("Best Lap: " + best + " in lap " + best.getLapNumber());
     }
     
     protected void refreshPlot() {
@@ -286,13 +336,13 @@ public class HeatView extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabelAirTemp;
     private javax.swing.JLabel jLabelAvg;
+    private javax.swing.JLabel jLabelBestLap;
     private javax.swing.JLabel jLabelCar;
     private javax.swing.JLabel jLabelClass;
     private javax.swing.JLabel jLabelSetupChanges;
     private javax.swing.JLabel jLabelTrack;
     private javax.swing.JLabel jLabelTrackRecord;
     private javax.swing.JLabel jLabelTrackTemp;
-    private javax.swing.JLabel jLabelbestLap;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

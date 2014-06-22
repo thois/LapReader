@@ -97,6 +97,10 @@ public class Result extends Model implements Serializable {
         return time%1000;
     }
     
+    public Lap avgLapTime() {
+        return new Lap(time/laps, 0, null);
+    }
+    
     @Override
     public String toString() {
         return laps + " laps " + String.format("%02d", minutes()) +

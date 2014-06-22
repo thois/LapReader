@@ -120,6 +120,11 @@ public class Controller {
     }
     
     public void deleteDay(TestDay day) throws SQLException {
+        ForeignCollection<Heat> heats = day.getHeats();
+        if (heats != null)
+            for (Heat h : heats) {
+                deleteHeat(h);
+            }
         testDayDao.delete(day);
     }
     
@@ -176,11 +181,16 @@ public class Controller {
     
     public void updateHeat(Heat heat, String time) throws SQLException, ParseException {
         heat.setTime(tf.parse(time));
+        updateHeat(heat);
+    }
+    
+    public void updateHeat(Heat heat) throws SQLException {
         heatDao.update(heat);
         heatDao.refresh(heat);
     }
     
     public void deleteHeat(Heat heat) throws SQLException {
+        resultDao.delete(heat.getResult());
         heatDao.delete(heat);
     }
     
@@ -204,6 +214,11 @@ public class Controller {
     public ForeignCollection<Lap> getLaps(Heat heat) throws SQLException {
         heatDao.refresh(heat);
         return heat.getLaps();
+    }
+    
+    public Lap getBestLap(Heat heat) throws SQLException {
+        QueryBuilder<Lap, String> qb = lapDao.queryBuilder().orderBy("time", true);
+        return qb.where().eq("heat_id", heat.getId()).queryForFirst();
     }
     
 }

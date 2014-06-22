@@ -42,6 +42,15 @@ public class Heat extends Model implements Serializable {
     @DatabaseField(foreign=true, foreignAutoRefresh=true, columnDefinition = "integer references result(id) on delete cascade")
     private Result result;
     
+    @DatabaseField
+    private String setupChanges;
+    
+    @DatabaseField
+    private Integer trackTemp;
+    
+    @DatabaseField
+    private Integer airTemp;
+    
     /**
      * Database id for persisting the heat in database
      */
@@ -101,7 +110,31 @@ public class Heat extends Model implements Serializable {
         this.laps = laps;
     }
 
-    public int getId() {
+    public String getSetupChanges() {
+        return setupChanges;
+    }
+
+    public void setSetupChanges(String setupChanges) {
+        this.setupChanges = setupChanges;
+    }
+
+    public Integer getTrackTemp() {
+        return trackTemp;
+    }
+
+    public void setTrackTemp(Integer trackTemp) {
+        this.trackTemp = trackTemp;
+    }
+
+    public Integer getAirTemp() {
+        return airTemp;
+    }
+
+    public void setAirTemp(Integer airTemp) {
+        this.airTemp = airTemp;
+    }
+
+    public Integer getId() {
         return id;
     }
 
