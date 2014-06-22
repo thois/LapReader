@@ -64,6 +64,11 @@ public class HeatListView extends ListView {
     public void deleteButtonActionPerformed(ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < heats.length) {
+            int selection = JOptionPane.showConfirmDialog(this,
+                "Are you sure to delete " + heats[id] + " ?", "Are you sure?",
+                JOptionPane.YES_NO_OPTION);
+            if (selection != 0)
+                return;
             try {
                 controller.deleteHeat(heats[id]);
                 refreshData();

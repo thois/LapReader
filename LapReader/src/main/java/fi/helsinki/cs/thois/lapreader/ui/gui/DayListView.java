@@ -60,6 +60,11 @@ public class DayListView extends ListView {
     public void deleteButtonActionPerformed(ActionEvent evt) {
         int id = getjTable1().getSelectedRow();
         if (id >= 0 && id < days.size()) {
+            int selection = JOptionPane.showConfirmDialog(this, "Are you sure to delete " +
+                    days.get(id) + " ?", "Are you sure?",
+                JOptionPane.YES_NO_OPTION);
+            if (selection != 0)
+                return;
             try {
                 controller.deleteDay(days.get(id));
                 refreshData();
