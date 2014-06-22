@@ -1,27 +1,47 @@
 package fi.helsinki.cs.thois.lapreader.ui.gui;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import fi.helsinki.cs.thois.lapreader.Controller;
+import fi.helsinki.cs.thois.lapreader.model.Heat;
+import fi.helsinki.cs.thois.lapreader.model.Lap;
 import fi.helsinki.cs.thois.lapreader.model.Model;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class HeatView extends javax.swing.JFrame {
 
     /**
      * Creates new form ListView
      */
-    public HeatView() {
-        initComponents();
-    }
-
-    public HeatView(Controller controller) {
+    public HeatView(Controller controller, Heat heat) throws SQLException {
         initComponents();
         this.controller = controller;
+        this.heat = heat;
+        this.heat = heat;
+        Object[] columnNames = {"Lapnumber", "Laptime"};
+        this.columnNames = columnNames;
+        listTitle.setText("Day " + heat.getTestDay() + " heat at " + heat + " :");
+        
+        refreshData();
+        chartPanel = new ChartPanel(chart);
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(chartPanel, BorderLayout.NORTH);
     }
     
     /**
@@ -35,16 +55,28 @@ public class HeatView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        showButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         listTitle = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabelSetupChanges = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaSetupChanges = new javax.swing.JTextArea();
+        saveButton = new javax.swing.JButton();
+        jLabelbestLap = new javax.swing.JLabel();
+        jLabelAvg = new javax.swing.JLabel();
+        jLabelTrackRecord = new javax.swing.JLabel();
+        jLabelTrack = new javax.swing.JLabel();
+        jLabelCar = new javax.swing.JLabel();
+        jLabelTrackTemp = new javax.swing.JLabel();
+        jLabelAirTemp = new javax.swing.JLabel();
+        jTextFieldTrackTemp = new javax.swing.JTextField();
+        jTextFieldAirTemp = new javax.swing.JTextField();
+        jLabelClass = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,23 +88,47 @@ public class HeatView extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        showButton.setText("Show");
-
-        addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
-        deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
         listTitle.setText("Title");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 416, Short.MAX_VALUE)
+        );
+
+        jLabelSetupChanges.setText("Setup changes:");
+
+        jTextAreaSetupChanges.setColumns(20);
+        jTextAreaSetupChanges.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaSetupChanges);
+
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        jLabelbestLap.setText("Best Lap:  15.560 in lap 5");
+
+        jLabelAvg.setText("Average: 16.580 ");
+
+        jLabelTrackRecord.setText("Track record for result! Track record for best lap!");
+
+        jLabelTrack.setText("Track: Tattarisuo, small");
+
+        jLabelCar.setText("Car: Xray T3");
+
+        jLabelTrackTemp.setText("Track temp:");
+
+        jLabelAirTemp.setText("Air temp:");
+
+        jLabelClass.setText("Class: TSP-10");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -90,78 +146,99 @@ public class HeatView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(showButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addContainerGap(209, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(listTitle)
+                            .addComponent(saveButton))
+                        .addGap(0, 1014, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(listTitle)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSetupChanges)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabelAirTemp)
+                                    .addComponent(jTextFieldAirTemp)
+                                    .addComponent(jLabelTrackTemp)
+                                    .addComponent(jTextFieldTrackTemp))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelbestLap)
+                                    .addComponent(jLabelAvg)
+                                    .addComponent(jLabelTrack)
+                                    .addComponent(jLabelCar)
+                                    .addComponent(jLabelClass)
+                                    .addComponent(jLabelTrackRecord))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(listTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showButton)
-                    .addComponent(addButton)
-                    .addComponent(deleteButton))
-                .addGap(23, 23, 23))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(listTitle)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelSetupChanges)
+                                .addGap(8, 8, 8))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelTrackTemp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextFieldTrackTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelAirTemp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldAirTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelbestLap)
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabelAvg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTrack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelCar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelClass)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTrackRecord)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.addRow(new Object[columnNames.length]);
-        jTable1.editCellAt(model.getRowCount()-1, 0);
-        Component editor = jTable1.getEditorComponent();  
-        editor.requestFocusInWindow();
-    }//GEN-LAST:event_addButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
-    public void showButtonActionPerformed(ActionEvent evt) {
-    }
-    
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    public JTable getjTable1() {
-        return jTable1;
-    }
-
-    public void setjTable1(JTable jTable1) {
-        this.jTable1 = jTable1;
-    }
-
-    public JLabel getListTitle() {
-        return listTitle;
-    }
-
-    public void setListTitle(JLabel title) {
-        this.listTitle = title;
-    }
-       
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
         if (models == null) {
@@ -174,10 +251,27 @@ public class HeatView extends javax.swing.JFrame {
         return data;
     }
     
-    protected void refreshData(List<Model> models) {
+    protected void refreshData() throws SQLException {
+        laps = controller.getLaps(heat);
+        ArrayList<Model> models = new ArrayList<Model>(laps);
         Object[][] data = constructTable(models, columnNames.length);
-        DefaultTableModel model = (DefaultTableModel)getjTable1().getModel();
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
+        refreshPlot();
+    }
+    
+    protected void refreshPlot() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Lap l : laps)
+            dataset.addValue(((double)l.getTime())/1000, heat.toString(), "" +
+                    l.getLapNumber());
+        chart = ChartFactory.createLineChart(null, "Lap", "Laptime", dataset,
+                PlotOrientation.VERTICAL, false, true, false);
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        LineAndShapeRenderer renderer = (LineAndShapeRenderer)plot.getRenderer();
+        renderer.setShapesVisible(true);
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setAutoRangeIncludesZero(false);
     }
     
     protected void displaySqlError() {
@@ -188,56 +282,35 @@ public class HeatView extends javax.swing.JFrame {
     public void rowChangedAction(int row) {
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HeatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HeatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HeatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HeatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HeatView().setVisible(true);
-            }
-        });
-    }
-
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton addButton;
-    protected javax.swing.JButton deleteButton;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel jLabelAirTemp;
+    private javax.swing.JLabel jLabelAvg;
+    private javax.swing.JLabel jLabelCar;
+    private javax.swing.JLabel jLabelClass;
+    private javax.swing.JLabel jLabelSetupChanges;
+    private javax.swing.JLabel jLabelTrack;
+    private javax.swing.JLabel jLabelTrackRecord;
+    private javax.swing.JLabel jLabelTrackTemp;
+    private javax.swing.JLabel jLabelbestLap;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     protected javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextAreaSetupChanges;
+    private javax.swing.JTextField jTextFieldAirTemp;
+    private javax.swing.JTextField jTextFieldTrackTemp;
     private javax.swing.JLabel listTitle;
-    protected javax.swing.JButton showButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 
     protected Controller controller;
     protected Object[] columnNames;
+    private Heat heat;
+    private ForeignCollection<Lap> laps;
+    private ChartPanel chartPanel;
+    private JFreeChart chart;
 }

@@ -43,7 +43,7 @@ public class HeatListView extends ListView {
     
     private void showHeat(Heat heat) {
         try {
-            LapListView lapListView = new LapListView(controller, heat);
+            HeatView lapListView = new HeatView(controller, heat);
             lapListView.setVisible(true);
         } catch (SQLException ex) {
             displaySqlError();
