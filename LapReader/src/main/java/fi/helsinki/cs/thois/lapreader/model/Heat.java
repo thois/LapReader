@@ -146,16 +146,21 @@ public class Heat extends Model implements Serializable {
         laps.add(lap);
     }
     
+    public String timeToString() {
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        return df.format(time);
+    }
+    
     @Override
     public String toString() {
         DateFormat df = new SimpleDateFormat("HH:mm");
-        return df.format(time) + ": " + result;
+        return timeToString() + ": " + result;
     }
     
     @Override
     public Object[] getRowData() {
         DateFormat df = new SimpleDateFormat("HH:mm");
-        Object[] data = {df.format(time), result.toString()};
+        Object[] data = {timeToString(), result.toString()};
         return data;
     }
     

@@ -83,6 +83,27 @@ public class HeatListView extends ListView {
     private void refreshData() throws SQLException {
         heats = controller.getHeats(day).toArray(new Heat[0]);
         super.refreshData(new ArrayList<Model>(Arrays.asList(heats)));
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        addBestLaps(model);
+        addAvgs(model);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(100);
+    }
+    
+    private void addBestLaps(DefaultTableModel model) throws SQLException {
+        Object[] data = new Object[heats.length];
+        for (int i = 0; i < heats.length; i++) {
+            Lap best = controller.getBestLap(heats[i]);
+           data[i] = best + " (" + best.getLapNumber() + ")";
+       }
+       model.addColumn("Best lap", data);
+    }
+    
+    private void addAvgs(DefaultTableModel model) throws SQLException {
+        Object[] data = new Object[heats.length];
+        for (int i = 0; i < heats.length; i++) {
+           data[i] = heats[i].getResult().avgLapTime().toString();
+       }
+       model.addColumn("Average", data);
     }
     
     private File selectLapsFile() {

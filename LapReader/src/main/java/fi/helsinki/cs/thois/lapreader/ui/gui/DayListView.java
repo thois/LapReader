@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class DayListView extends ListView {
     
@@ -30,11 +31,48 @@ public class DayListView extends ListView {
         super.columnNames = columnNames;
         getListTitle().setText("Dates");
         refreshData();
+        setColumnWidths();
+    }
+    
+    private void setColumnWidths() {
+        TableColumnModel model = jTable1.getColumnModel();
+        model.getColumn(1).setPreferredWidth(50);
+        model.getColumn(2).setPreferredWidth(150);
+        model.getColumn(3).setPreferredWidth(130);
     }
     
     private void refreshData() throws SQLException {
         days = controller.getDays();
         super.refreshData(new ArrayList<Model>(days));
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        addBestLaps(model);
+        addBestResults(model);
+
+    }
+    
+    private void addBestLaps(DefaultTableModel model) throws SQLException {
+        Object[] data = new Object[days.size()];
+        for (int i = 0; i < days.size(); i++) {
+            Lap best = controller.getBestLap(days.get(i));
+            if (best == null)
+                data[i] = "";
+            else
+                data[i] = best + " (" + best.getLapNumber() + ") at "
+                        + best.getHeat().timeToString();
+        }
+        model.addColumn("Best lap", data);
+    }
+    
+    private void addBestResults(DefaultTableModel model) throws SQLException {
+        Object[] data = new Object[days.size()];
+        for (int i = 0; i < days.size(); i++) {
+            Result best = controller.getBestResult(days.get(i));
+            if (best == null)
+                data[i] = "";
+            else
+                data[i] = best.toString();
+        }
+        model.addColumn("Best result", data);
     }
     
     private void openDay(TestDay day) {

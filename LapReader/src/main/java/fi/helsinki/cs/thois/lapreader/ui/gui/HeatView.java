@@ -3,6 +3,7 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 import com.j256.ormlite.dao.ForeignCollection;
 import fi.helsinki.cs.thois.lapreader.Controller;
 import fi.helsinki.cs.thois.lapreader.model.*;
+import fi.helsinki.cs.thois.lapreader.ui.gui.tableModel.LapTableModel;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class HeatView extends javax.swing.JFrame {
         Object[] columnNames = {"Lap", "Laptime"};
         this.columnNames = columnNames;
         listTitle.setText("Day " + heat.getTestDay() + " heat at " + heat + " :");
-        
+        jTable1.setModel(new LapTableModel());
         refreshData();
         chartPanel = new ChartPanel(chart);
         jPanel1.setLayout(new BorderLayout());
@@ -287,6 +288,7 @@ public class HeatView extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
         addTotalTimes(model);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
         refreshAdditionalData();
         refreshPlot();
     }

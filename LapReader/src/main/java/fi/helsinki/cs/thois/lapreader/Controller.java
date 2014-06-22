@@ -217,8 +217,29 @@ public class Controller {
     }
     
     public Lap getBestLap(Heat heat) throws SQLException {
-        QueryBuilder<Lap, String> qb = lapDao.queryBuilder().orderBy("time", true);
+        QueryBuilder<Lap, String> qb =
+                lapDao.queryBuilder().orderBy("time", true);
         return qb.where().eq("heat_id", heat.getId()).queryForFirst();
     }
     
+    public Lap getBestLap(TestDay day) throws SQLException {
+        QueryBuilder<Lap, String> qb =
+                lapDao.queryBuilder().orderBy("time", true);
+        QueryBuilder<Heat, String> heatQb = heatDao.queryBuilder();
+        heatQb.where().eq("testday_id", day.getId());
+        return qb.join(heatQb).queryForFirst();
+    }
+    
+    public Result getBestResult(TestDay day) throws SQLException {
+        QueryBuilder<Result, String> qb = resultDao.queryBuilder().
+                orderBy("laps", false).orderBy("time", true);
+        QueryBuilder<Heat, String> heatQb = heatDao.queryBuilder();
+        heatQb.where().eq("testday_id", day.getId());
+        return qb.join(heatQb).queryForFirst();
+    }
+ 
+    public Heat getHeatByResult(Result result) throws SQLException {
+        QueryBuilder<Heat, String> heatQb = heatDao.queryBuilder();
+        return heatQb.where().eq("result_id", result.getId()).queryForFirst();
+    }
 }
