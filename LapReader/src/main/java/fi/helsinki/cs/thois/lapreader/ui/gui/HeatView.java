@@ -2,33 +2,20 @@ package fi.helsinki.cs.thois.lapreader.ui.gui;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import fi.helsinki.cs.thois.lapreader.Controller;
-import fi.helsinki.cs.thois.lapreader.model.Heat;
-import fi.helsinki.cs.thois.lapreader.model.Lap;
-import fi.helsinki.cs.thois.lapreader.model.Model;
+import fi.helsinki.cs.thois.lapreader.model.*;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -42,7 +29,7 @@ public class HeatView extends javax.swing.JFrame {
         this.controller = controller;
         this.heat = heat;
         this.heat = heat;
-        Object[] columnNames = {"Lapnumber", "Laptime"};
+        Object[] columnNames = {"Lap", "Laptime"};
         this.columnNames = columnNames;
         listTitle.setText("Day " + heat.getTestDay() + " heat at " + heat + " :");
         
@@ -299,6 +286,7 @@ public class HeatView extends javax.swing.JFrame {
         Object[][] data = constructTable(models, columnNames.length);
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
+        addTotalTimes(model);
         refreshAdditionalData();
         refreshPlot();
     }
@@ -312,6 +300,15 @@ public class HeatView extends javax.swing.JFrame {
         jLabelAvg.setText("Average: " + heat.getResult().avgLapTime());
         Lap best = controller.getBestLap(heat);
         jLabelBestLap.setText("Best Lap: " + best + " in lap " + best.getLapNumber());
+    }
+    
+    protected void addTotalTimes(DefaultTableModel model) {
+       Result[] times = heat.totalTimes();
+       Object[] data = new Object[times.length];
+       for (int i = 0; i < times.length; i++) {
+           data[i] = times[i].timeToString();
+       }
+       model.addColumn("Total time", data);
     }
     
     protected void refreshPlot() {
