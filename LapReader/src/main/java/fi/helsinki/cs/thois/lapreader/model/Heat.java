@@ -23,7 +23,7 @@ public class Heat extends Model implements Serializable {
     private Date time;
     
     /**
-     * Parent
+     * Parent testDay object
      */
     @ManyToOne
     @DatabaseField(foreign=true, columnDefinition = "integer references testday(id) on delete cascade")
@@ -42,12 +42,21 @@ public class Heat extends Model implements Serializable {
     @DatabaseField(foreign=true, foreignAutoRefresh=true, columnDefinition = "integer references result(id) on delete cascade")
     private Result result;
     
+    /**
+     * Setup changes in plain String for archiving
+     */
     @DatabaseField
     private String setupChanges;
     
+    /**
+     * Track temperature when the heat was run
+     */
     @DatabaseField
     private Integer trackTemp;
     
+    /**
+     * Air temperature when the heat was run
+     */
     @DatabaseField
     private Integer airTemp;
     
@@ -142,10 +151,19 @@ public class Heat extends Model implements Serializable {
         this.id = id;
     }
     
+    /**
+     * Adds lap to the Heat. A heat must exists before using this and the heat
+     * must already be persisted in database
+     * @param lap to be added
+     */
     public void addLap(Lap lap) {
         laps.add(lap);
     }
     
+    /**
+     * Formats time of run to string
+     * @return time as a string
+     */
     public String timeToString() {
         DateFormat df = new SimpleDateFormat("HH:mm");
         return df.format(time);
@@ -168,6 +186,11 @@ public class Heat extends Model implements Serializable {
         return totalTimes(laps.toArray(new Lap[0]));
     }
     
+    /**
+     * Get array of total time after each lap
+     * @param lapsArray
+     * @return array of total times as Results
+     */
     public Result[] totalTimes(Lap[] lapsArray) {
         Result[] times = new Result[lapsArray.length];
         int time = 0;

@@ -12,7 +12,6 @@ import javax.persistence.Id;
  *
  * Database model for easier handling of result of a heat.
  */
-
 @Entity
 public class Result extends Model implements Serializable {
     /**
@@ -97,10 +96,18 @@ public class Result extends Model implements Serializable {
         return time%1000;
     }
     
+    /**
+     * Calculates average laptime for a heat
+     * @return average laptime as Lap object
+     */
     public Lap avgLapTime() {
         return new Lap(time/laps, 0, null);
     }
     
+    /**
+     * Formats time to string
+     * @return time formatted to string
+     */
     public String timeToString() {
         return String.format("%02d", minutes()) +
                 ":" + String.format("%02d", seconds()) + "." +

@@ -22,7 +22,7 @@ public class Lap extends Model implements Serializable {
     private int lapNumber;
     
     /**
-     * Parent
+     * Parent heat object
      */
     @ManyToOne
     @DatabaseField(foreign=true, columnDefinition = "integer references heat(id) on delete cascade")

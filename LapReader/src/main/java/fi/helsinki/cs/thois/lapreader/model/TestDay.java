@@ -1,12 +1,9 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
-
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.ForeignCollectionField;
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.*;
@@ -25,12 +22,12 @@ public class TestDay extends Model implements Serializable {
     private Date day;
     
     /**
-     * Track conditions in a string
+     * Track conditions in a string. Not yet used in the UI.
      */
     private String conditions = "";
     
     /**
-     * 
+     * Heats completed in the day
      */
     @ForeignCollectionField(eager = false, orderColumnName="time")
     ForeignCollection<Heat> heats;
