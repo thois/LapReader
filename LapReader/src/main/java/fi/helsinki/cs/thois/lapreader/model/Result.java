@@ -101,11 +101,15 @@ public class Result extends Model implements Serializable {
         return new Lap(time/laps, 0, null);
     }
     
-    @Override
-    public String toString() {
-        return laps + " laps " + String.format("%02d", minutes()) +
+    public String timeToString() {
+        return String.format("%02d", minutes()) +
                 ":" + String.format("%02d", seconds()) + "." +
                 String.format("%03d", milliSeconds());
+    }
+    
+    @Override
+    public String toString() {
+        return laps + " laps " + timeToString();
     }
     
     @Override

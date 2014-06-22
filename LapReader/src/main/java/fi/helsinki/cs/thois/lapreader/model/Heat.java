@@ -159,4 +159,15 @@ public class Heat extends Model implements Serializable {
         return data;
     }
     
+    public Result[] totalTimes() {
+        Lap[] lapsArray = laps.toArray(new Lap[0]);
+        Result[] times = new Result[lapsArray.length];
+        int time = 0;
+        for (int i = 0; i < lapsArray.length; i++) {
+            time += lapsArray[i].getTime();
+            times[i] = new Result(-1, time);
+        }
+        return times;
+    }
+    
 }

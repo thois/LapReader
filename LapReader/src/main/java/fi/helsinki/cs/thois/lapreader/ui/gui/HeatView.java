@@ -25,8 +25,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 public class HeatView extends javax.swing.JFrame {
 
@@ -311,14 +315,15 @@ public class HeatView extends javax.swing.JFrame {
     }
     
     protected void refreshPlot() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        XYSeries series = new XYSeries(heat.toString());
         for (Lap l : laps)
-            dataset.addValue(((double)l.getTime())/1000, heat.toString(), "" +
-                    l.getLapNumber());
-        chart = ChartFactory.createLineChart(null, "Lap", "Laptime", dataset,
+            series.add(l.getLapNumber(), ((double)l.getTime())/1000);
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+        chart = ChartFactory.createXYLineChart(null, "Lap", "Laptime", dataset,
                 PlotOrientation.VERTICAL, false, true, false);
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        LineAndShapeRenderer renderer = (LineAndShapeRenderer)plot.getRenderer();
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer)plot.getRenderer();
         renderer.setShapesVisible(true);
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setAutoRangeIncludesZero(false);
