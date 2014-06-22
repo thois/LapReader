@@ -120,6 +120,7 @@ public class Controller {
     }
     
     public void deleteDay(TestDay day) throws SQLException {
+        testDayDao.refresh(day);
         ForeignCollection<Heat> heats = day.getHeats();
         if (heats != null)
             for (Heat h : heats) {
@@ -190,6 +191,7 @@ public class Controller {
     }
     
     public void deleteHeat(Heat heat) throws SQLException {
+        heatDao.refresh(heat);
         resultDao.delete(heat.getResult());
         heatDao.delete(heat);
     }
@@ -249,5 +251,9 @@ public class Controller {
     
     public Heat getHeatById(int id) throws SQLException {
         return heatDao.queryForId(""+id);
+    }
+    
+    public Result getResultById(int id) throws SQLException {
+        return resultDao.queryForId(""+id);
     }
 }

@@ -51,10 +51,11 @@ public class ControllerTest {
     @Test
     public void testAddingDay() throws ParseException, SQLException {
         TestDay addedDay = controller.addDay(null);
+        addedDay = controller.addDay("");
         Assert.assertEquals(TestDay.class, addedDay.getClass());
         List<TestDay> days = controller.getDays();
         System.out.println(days.size());
-        assert(days.size() == 1);
+        assert(days.size() == 2);
     } 
     
     @Test
@@ -99,10 +100,12 @@ public class ControllerTest {
         int id = addedDay.getId();
         String[] lines = {"01Lap  00m15s18  04m34s43"};
         Heat heat = controller.addHeat(addedDay, lines, "16:53", parser);
+        int resultId = heat.getResult().getId();
         controller.deleteDay(addedDay);
         TestDay dayFromDatabase = controller.getTestDayById(id);
         Assert.assertEquals(null, dayFromDatabase);
         Assert.assertEquals(null, controller.getHeatById(heat.getId()));
+        Assert.assertEquals(null, controller.getResultById(resultId));
     }
     
     @Test
@@ -198,5 +201,12 @@ public class ControllerTest {
         Heat heat = createHeat();
         Heat heatFromdatabase = controller.getHeatByResult(heat.getResult());
         Assert.assertEquals(heat.toString(), heatFromdatabase.toString());
+    }
+    
+    @Test
+    public void testGetResultById() throws ParseException, SQLException {
+        Result result = createHeat().getResult();
+        Result resultFromDatabase = controller.getResultById(result.getId());
+        Assert.assertEquals(result.toString(), resultFromDatabase.toString());
     }
 }
