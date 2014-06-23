@@ -75,7 +75,7 @@ public class Heat extends Model implements Serializable {
     }  
     
     /**
-     * Constructor to
+     * Constructor for normal use
      * @param time presenting starting time of the heat
      * @param testDay links the heat to day
      */
@@ -182,6 +182,10 @@ public class Heat extends Model implements Serializable {
         return data;
     }
     
+    /**
+     * Get array of total time after each lap
+     * @return array of total times as Results
+     */
     public Result[] totalTimes() {
         return totalTimes(laps.toArray(new Lap[0]));
     }

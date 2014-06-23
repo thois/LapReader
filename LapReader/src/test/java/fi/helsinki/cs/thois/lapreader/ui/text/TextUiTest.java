@@ -13,7 +13,7 @@ public class TextUiTest {
     
     @Test
     public void testCreation() throws SQLException {
-        String databaseUrl = "jdbc:h2:mem:account";
+        String databaseUrl = "jdbc:sqlite::memory:";
         TextUi ui = new TextUi(new Controller(databaseUrl));
     }
     
