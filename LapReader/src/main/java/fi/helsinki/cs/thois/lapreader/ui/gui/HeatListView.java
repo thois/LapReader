@@ -126,7 +126,7 @@ public class HeatListView extends ListView {
         } catch (ParseException ex) {
             //TODO start editing cell without firing cellChanged event
             //jTable1.editCellAt(row, 0);
-            JOptionPane.showMessageDialog(this, "Fill time in format HH.mm");
+            JOptionPane.showMessageDialog(this, "Fill time in format HH:mm");
         }
     }
     

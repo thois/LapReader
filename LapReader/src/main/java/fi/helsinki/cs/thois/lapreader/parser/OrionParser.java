@@ -17,10 +17,13 @@ public class OrionParser implements Parser {
      * @throws ParseException 
      */
     public static int parseTime(String s) throws ParseException {
+        try {
             String[] tbl = s.split("m");
             if (tbl.length < 2)
                 throw new ParseException("Time (" + s + ") is unparseable!", -1);
+            
             int minutes = Integer.parseInt(tbl[0]);
+           
             tbl = tbl[1].split("s");
             if (tbl.length < 2)
                 throw new ParseException("Time (" + s + ") is unparseable!", -1);
@@ -28,6 +31,9 @@ public class OrionParser implements Parser {
             int milliseconds = 10*Integer.parseInt(tbl[1]);
             int time = 60000*minutes+1000*seconds+milliseconds;
             return time;
+        } catch (NumberFormatException exp) {
+                throw new ParseException("Time (" + s + ") has incorrect numbers!", -1);
+        }    
     }
     
     /**
