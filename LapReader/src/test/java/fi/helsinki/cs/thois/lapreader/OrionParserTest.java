@@ -56,7 +56,7 @@ public class OrionParserTest {
         parser.parse(str);
     }
     
-    @Test(expected = NumberFormatException.class)
+    @Test(expected = ParseException.class)
     public void testIllegalTimeFormat3() throws ParseException {
         String[] str = {"01Lap 00ms00 00m15s25","02 Lap00m15s00 00m30s32"};
         parser.parse(str);

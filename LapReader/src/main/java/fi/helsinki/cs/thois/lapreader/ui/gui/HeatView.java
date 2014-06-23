@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -38,6 +39,10 @@ public class HeatView extends javax.swing.JFrame {
         chartPanel = new ChartPanel(chart);
         jPanel1.setLayout(new BorderLayout());
         jPanel1.add(chartPanel, BorderLayout.NORTH);
+        setUnimplementedInvisible();
+    }
+    
+    private void setUnimplementedInvisible() {
         jLabelTrackRecord.setVisible(false);
         jLabelCar.setVisible(false);
         jLabelTrack.setVisible(false);
@@ -226,27 +231,8 @@ public class HeatView extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         heat.setSetupChanges(jTextAreaSetupChanges.getText());
-        //TODO refactor dublicate code to own method
-        if (!jTextFieldTrackTemp.getText().isEmpty())
-            try {
-                heat.setTrackTemp(Integer.parseInt(jTextFieldTrackTemp.getText()));
-            } catch (NumberFormatException exp) {
-                jTextFieldTrackTemp.requestFocus();
-                displayNumberFormatError();
-                return;
-            }
-        else
-            heat.setTrackTemp(null);
-        if (!jTextFieldAirTemp.getText().isEmpty())
-            try {
-                heat.setAirTemp(Integer.parseInt(jTextFieldAirTemp.getText()));
-            } catch (NumberFormatException exp) {
-                jTextFieldAirTemp.requestFocus();
-                displayNumberFormatError();
-                return;
-            }
-        else
-            heat.setAirTemp(null);
+        heat.setTrackTemp(updateTemp(jTextFieldTrackTemp));
+        heat.setAirTemp(updateTemp(jTextFieldAirTemp));
         try {
             controller.updateHeat(heat);
         } catch (SQLException ex) {
@@ -256,9 +242,21 @@ public class HeatView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Additional data saved!");
     }//GEN-LAST:event_saveButtonActionPerformed
     
+    private Integer updateTemp(JTextField textField) {
+        if (textField.getText().isEmpty())
+            return null;
+        try {
+            return Integer.parseInt(jTextFieldTrackTemp.getText());
+        } catch (NumberFormatException exp) {
+            textField.requestFocus();
+            displayNumberFormatError();
+            return null;
+        } 
+    }
+    
     private void displayNumberFormatError() {
         JOptionPane.showMessageDialog(this,
-                "Please write only numbers to temp. Data not saved!");
+                "Please write only numbers to temp. Temperature data not saved!");
     }
     
     private Object[][] constructTable(List<Model> models, int columns) {
@@ -325,9 +323,6 @@ public class HeatView extends javax.swing.JFrame {
                 "Database error! Restart app and try again.");
     }
     
-    public void rowChangedAction(int row) {
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabelAirTemp;
@@ -354,6 +349,6 @@ public class HeatView extends javax.swing.JFrame {
     protected Object[] columnNames;
     private Heat heat;
     private ForeignCollection<Lap> laps;
-    private ChartPanel chartPanel;
+    private final ChartPanel chartPanel;
     private JFreeChart chart;
 }

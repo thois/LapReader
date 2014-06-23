@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class ListView extends javax.swing.JFrame {
+public abstract class ListView extends javax.swing.JFrame {
 
     /**
      * Creates new form ListView
@@ -40,9 +40,6 @@ public class ListView extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         listTitle = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,15 +63,8 @@ public class ListView extends javax.swing.JFrame {
         });
 
         deleteButton.setText("Delete");
+
         listTitle.setText("Title");
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,22 +128,6 @@ public class ListView extends javax.swing.JFrame {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-
-    public JTable getjTable1() {
-        return jTable1;
-    }
-
-    public void setjTable1(JTable jTable1) {
-        this.jTable1 = jTable1;
-    }
-
-    public JLabel getListTitle() {
-        return listTitle;
-    }
-
-    public void setListTitle(JLabel title) {
-        this.listTitle = title;
-    }
        
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
@@ -169,7 +143,7 @@ public class ListView extends javax.swing.JFrame {
     
     protected void refreshData(List<Model> models) {
         Object[][] data = constructTable(models, columnNames.length);
-        DefaultTableModel model = (DefaultTableModel)getjTable1().getModel();
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
     }
     
@@ -185,12 +159,9 @@ public class ListView extends javax.swing.JFrame {
     protected javax.swing.JButton addButton;
     protected javax.swing.JButton deleteButton;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTable jTable1;
-    private javax.swing.JLabel listTitle;
+    protected javax.swing.JLabel listTitle;
     protected javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
 

@@ -27,7 +27,7 @@ public class DayListView extends ListView {
         deleteButton.addActionListener(listener);
         Object[] columnNames = {"Date", "Heats"};
         super.columnNames = columnNames;
-        getListTitle().setText("Dates");
+        listTitle.setText("Dates");
         refreshData();
     }
     
@@ -83,7 +83,7 @@ public class DayListView extends ListView {
     
     @Override
     public void showButtonActionPerformed(ActionEvent evt) {
-        int id = getjTable1().getSelectedRow();
+        int id = jTable1.getSelectedRow();
         if (id >= 0 && id < days.size()) {
                 openDay(days.get(id));
         } else {
@@ -93,7 +93,7 @@ public class DayListView extends ListView {
 
     @Override
     public void deleteButtonActionPerformed(ActionEvent evt) {
-        int id = getjTable1().getSelectedRow();
+        int id = jTable1.getSelectedRow();
         if (id >= 0 && id < days.size()) {
             int selection = JOptionPane.showConfirmDialog(this, "Are you sure to delete " +
                     days.get(id) + " ?", "Are you sure?",

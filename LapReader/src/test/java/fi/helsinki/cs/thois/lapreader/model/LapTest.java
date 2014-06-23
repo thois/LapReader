@@ -1,5 +1,6 @@
 package fi.helsinki.cs.thois.lapreader.model;
 
+import java.text.DecimalFormat;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,9 +24,10 @@ public class LapTest {
     @Test
     public void testToString() {
         int time = 12345;
+        DecimalFormat df = new DecimalFormat("#.000");
         Lap l = new Lap();
         l.setTime(time);
-        Assert.assertEquals("12.345", l.toString());
+        Assert.assertEquals(df.format(((double)time)/1000), l.toString());
     }
     
     @Test

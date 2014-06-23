@@ -35,7 +35,7 @@ public class HeatListView extends ListView {
         deleteButton.addActionListener(listener);
         Object[] columnNames = {"Time", "Result"};
         super.columnNames = columnNames;
-        getListTitle().setText("Heats in " + this.day + " :");
+        listTitle.setText("Heats in " + this.day + " :");
         refreshData();
     }
     
@@ -50,7 +50,7 @@ public class HeatListView extends ListView {
     
     @Override
     public void showButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        int id = getjTable1().getSelectedRow();
+        int id = jTable1.getSelectedRow();
         if (id >= 0 && id < heats.length) {
             showHeat(heats[id]);
         } else {
@@ -60,7 +60,7 @@ public class HeatListView extends ListView {
     
     @Override
     public void deleteButtonActionPerformed(ActionEvent evt) {
-        int id = getjTable1().getSelectedRow();
+        int id = jTable1.getSelectedRow();
         if (id >= 0 && id < heats.length) {
             int selection = JOptionPane.showConfirmDialog(this,
                 "Are you sure to delete " + heats[id] + " ?", "Are you sure?",
