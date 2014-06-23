@@ -33,7 +33,6 @@ public class HeatView extends javax.swing.JFrame {
         initComponents();
         this.controller = controller;
         this.heat = heat;
-        this.heat = heat;
         Object[] columnNames = {"Lap", "Laptime"};
         this.columnNames = columnNames;
         listTitle.setText("Day " + heat.getTestDay() + " heat at " + heat + " :");

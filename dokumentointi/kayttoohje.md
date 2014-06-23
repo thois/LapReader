@@ -4,7 +4,7 @@ Ohjelman saa käynnistettyä suorittamalla repositorion päähakemistossa 'java 
 
 ##Dates-näkymä
 
-![Dates-näkymä](kuvat/dates.png "Kuva dates-näkymästä")
+![Days-näkymä](kuvat/days.png "Kuva days-näkymästä")
 
 Pääikkunana toimii päivien listanäkymä, josta näkee tietokannassa olevat päivät. 
 
