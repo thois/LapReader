@@ -1,4 +1,4 @@
-#Laptest
+#LapReader
 
 **Aihe:** Kierrosaikojen tallennusjärjestelmä pienoisautoilua (lähinnä radio-ohjattavia) varten. Ohjelman avulla pidetään kirjaa eri harjoituskerroilla (heateissa) ajetuista kierrosajoista ja tuloksista. Ohjelma laskee kierrosajoista statistiikan ja eri ajokertoja voidaan verrata toisiinsa. Harjoituskerrat eritellään päivämäärän sekä mahdollisesti radan mukaan. Kierrosajat tallennetaan tietokantaan, jotta vertailuja voidaan tehdä suurestakin datamäärästä.
 
