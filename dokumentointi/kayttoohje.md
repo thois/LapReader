@@ -19,6 +19,8 @@ Päivän poistaminen taas tapahtuu valitsemalla päivä jä käyttämällä Dele
 ##Heats-näkymä
 Heat näkymä toimii täysin vastaavasti kuin Date-näkymä, ainoana erona päivämäärän vaihtuminen kellonaikaan, jonka täytyy olla muodossa HH:mm.
 
+Esimerkkitiedosto ohjelman tiedostonluvun testaamista varten löytyy polusta LapReader/lap.txt.
+
 #Heat-näkymä
 
 ![Heat-näkymä](kuvat/heat.png "Kuva heat-näkymästä")
