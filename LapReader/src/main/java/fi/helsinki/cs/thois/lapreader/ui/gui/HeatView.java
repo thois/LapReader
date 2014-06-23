@@ -25,6 +25,9 @@ public class HeatView extends javax.swing.JFrame {
 
     /**
      * Creates new form ListView
+     * @param controller link to progrm logic
+     * @param heat to be displayed
+     * @throws java.sql.SQLException
      */
     public HeatView(Controller controller, Heat heat) throws SQLException {
         initComponents();
@@ -42,6 +45,9 @@ public class HeatView extends javax.swing.JFrame {
         setUnimplementedInvisible();
     }
     
+    /**
+     * Set ui components presenting unimplemented features invisible
+     */
     private void setUnimplementedInvisible() {
         jLabelTrackRecord.setVisible(false);
         jLabelCar.setVisible(false);
@@ -229,6 +235,10 @@ public class HeatView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Saves additional data. Provides functionality to save-button 
+     * @param evt that happened
+     */
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         heat.setSetupChanges(jTextAreaSetupChanges.getText());
         heat.setTrackTemp(updateTemp(jTextFieldTrackTemp));
@@ -242,6 +252,11 @@ public class HeatView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Additional data saved!");
     }//GEN-LAST:event_saveButtonActionPerformed
     
+    /**
+     * Updates temperature
+     * @param textField containing temperature to be updates
+     * @return temp to be saved to the database
+     */
     private Integer updateTemp(JTextField textField) {
         if (textField.getText().isEmpty())
             return null;
@@ -254,11 +269,21 @@ public class HeatView extends javax.swing.JFrame {
         } 
     }
     
+    /**
+     * Displays error dialog for temperature fields. To be used when parsing
+     * temperature fails
+     */
     private void displayNumberFormatError() {
         JOptionPane.showMessageDialog(this,
                 "Please write only numbers to temp. Temperature data not saved!");
     }
     
+    /**
+     * Constructs table to be displayed in jTable
+     * @param models to be displayed
+     * @param columns number of columns to be displayed
+     * @return constructed table
+     */
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
         if (models == null) {
@@ -271,6 +296,10 @@ public class HeatView extends javax.swing.JFrame {
         return data;
     }
     
+    /**
+     * Refreshes data in the form
+     * @throws SQLException if database operation fails
+     */
     protected void refreshData() throws SQLException {
         laps = controller.getLaps(heat);
         ArrayList<Model> models = new ArrayList<Model>(laps);
@@ -283,6 +312,10 @@ public class HeatView extends javax.swing.JFrame {
         refreshPlot();
     }
     
+    /**
+     * Refreshes additional data regarding to a heat
+     * @throws SQLException 
+     */
     protected void refreshAdditionalData() throws SQLException {
         jTextAreaSetupChanges.setText(heat.getSetupChanges());
         if (heat.getTrackTemp() != null)
@@ -294,6 +327,10 @@ public class HeatView extends javax.swing.JFrame {
         jLabelBestLap.setText("Best Lap: " + best + " in lap " + best.getLapNumber());
     }
     
+    /**
+     * Adds total time column
+     * @param model where column should added
+     */
     protected void addTotalTimes(DefaultTableModel model) {
        Result[] times = heat.totalTimes();
        Object[] data = new Object[times.length];
@@ -303,6 +340,9 @@ public class HeatView extends javax.swing.JFrame {
        model.addColumn("Total time", data);
     }
     
+    /**
+     * Build and refreshes plot from laptimes
+     */
     protected void refreshPlot() {
         XYSeries series = new XYSeries(heat.toString());
         for (Lap l : laps)
@@ -318,6 +358,9 @@ public class HeatView extends javax.swing.JFrame {
         rangeAxis.setAutoRangeIncludesZero(false);
     }
     
+    /**
+     * Displays database error-dialog
+     */
     protected void displaySqlError() {
         JOptionPane.showMessageDialog(this,
                 "Database error! Restart app and try again.");
@@ -345,10 +388,29 @@ public class HeatView extends javax.swing.JFrame {
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Link to the program logic
+     */
     protected Controller controller;
+    
+    /**
+     * contains column names for table
+     */
     protected Object[] columnNames;
+    
+    /**
+     * Heat that is displayed
+     */
     private Heat heat;
+    
+    /**
+     * Laps in displayed heat
+     */
     private ForeignCollection<Lap> laps;
     private final ChartPanel chartPanel;
+    
+    /**
+     * Chart from laptimes
+     */
     private JFreeChart chart;
 }

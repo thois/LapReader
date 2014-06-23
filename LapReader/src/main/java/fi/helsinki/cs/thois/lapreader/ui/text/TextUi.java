@@ -71,7 +71,7 @@ public class TextUi {
      * Formats order number for printing by adding leading zeroes
      * @param number to be formatted
      * @param max largest number to be displayed
-     * @return 
+     * @return formatted order number
      */
     public static String formatOrderNumber(int number, int max) {
         String str = "";

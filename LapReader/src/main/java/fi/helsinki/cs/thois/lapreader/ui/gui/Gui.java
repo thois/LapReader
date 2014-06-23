@@ -4,6 +4,10 @@ import fi.helsinki.cs.thois.lapreader.Controller;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
+/**
+ * Main class for gui. Includes skin customizations in future releases.
+ * @author niko
+ */
 public class Gui implements Runnable {
     
     private final Controller controller;

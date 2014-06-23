@@ -13,10 +13,21 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+/**
+ * Form displays all days in a database as a list
+ */
 public class DayListView extends ListView {
     
+    /**
+     * Days in a database
+     */
     List<TestDay> days;
     
+    /**
+     * Initializes and customizes ListView for days
+     * @param controller links form to program logic
+     * @throws SQLException if database error occurs
+     */
     public DayListView(Controller controller) throws SQLException {
         super(controller);
         DefaultTableModel model = new DayTableModel();
@@ -31,6 +42,9 @@ public class DayListView extends ListView {
         refreshData();
     }
     
+    /**
+     * Sets jTable columns preferred widths
+     */
     private void setColumnWidths() {
         TableColumnModel model = jTable1.getColumnModel();
         model.getColumn(1).setPreferredWidth(50);
@@ -38,6 +52,10 @@ public class DayListView extends ListView {
         model.getColumn(3).setPreferredWidth(130);
     }
     
+    /**
+     * refreshes data in the form
+     * @throws SQLException if database error occurs
+     */
     private void refreshData() throws SQLException {
         days = controller.getDays();
         super.refreshData(new ArrayList<Model>(days));
@@ -47,6 +65,11 @@ public class DayListView extends ListView {
         setColumnWidths();
     }
     
+    /**
+     * Adds column including best laps in the table
+     * @param model where column will be added
+     * @throws SQLException if database error occurs 
+     */
     private void addBestLaps(DefaultTableModel model) throws SQLException {
         Object[] data = new Object[days.size()];
         for (int i = 0; i < days.size(); i++) {
@@ -60,6 +83,11 @@ public class DayListView extends ListView {
         model.addColumn("Best lap", data);
     }
     
+    /**
+     * Adds column including best results in the table
+     * @param model where column will be added
+     * @throws SQLException if database error occurs 
+     */
     private void addBestResults(DefaultTableModel model) throws SQLException {
         Object[] data = new Object[days.size()];
         for (int i = 0; i < days.size(); i++) {
@@ -72,7 +100,11 @@ public class DayListView extends ListView {
         model.addColumn("Best result", data);
     }
     
-    private void openDay(TestDay day) {
+    /**
+     * Opens list view for day
+     * @param day to be opened
+     */
+    private void showDay(TestDay day) {
         try {
             HeatListView heatListView = new HeatListView(controller, day);
             heatListView.setVisible(true);
@@ -85,7 +117,7 @@ public class DayListView extends ListView {
     public void showButtonActionPerformed(ActionEvent evt) {
         int id = jTable1.getSelectedRow();
         if (id >= 0 && id < days.size()) {
-                openDay(days.get(id));
+                showDay(days.get(id));
         } else {
             JOptionPane.showMessageDialog(this, "Select first existing day!");
         }
@@ -111,9 +143,14 @@ public class DayListView extends ListView {
         }
     }
     
+    /**
+     * Adds day to the database
+     * @param day to be added
+     * @throws SQLException if database error occurs
+     */
     private void addDay(String day) throws SQLException {
         try {
-            openDay(controller.addDay(day));
+            showDay(controller.addDay(day));
         } catch (ParseException ex) {
             //TODO start editing cell without firing cellChanged event
             //jTable1.editCellAt(row, 0);
@@ -121,6 +158,11 @@ public class DayListView extends ListView {
         }
     }
     
+    /**
+     * Modifies testDay date
+     * @param id index to row to be updated
+     * @throws SQLException 
+     */
     private void modifyDay(int id) throws SQLException {
         TestDay day = days.get(id);
         try {

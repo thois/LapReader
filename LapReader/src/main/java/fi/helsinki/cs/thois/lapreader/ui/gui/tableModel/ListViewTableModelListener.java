@@ -4,6 +4,9 @@ import fi.helsinki.cs.thois.lapreader.ui.gui.ListView;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+/**
+ * Listener for table changes for forms inherited from listView
+ */
 public class ListViewTableModelListener implements TableModelListener {
     
     ListView view;

@@ -5,11 +5,14 @@ import fi.helsinki.cs.thois.lapreader.model.Model;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
+/**
+ * List view is abstract base form for all windows including listings in table
+ * format
+ */
 public abstract class ListView extends javax.swing.JFrame {
 
     /**
@@ -19,6 +22,10 @@ public abstract class ListView extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     * Creates new form and attachs a controller
+     * @param controller links form to the main logic
+     */
     public ListView(Controller controller) {
         initComponents();
         this.controller = controller;
@@ -111,6 +118,11 @@ public abstract class ListView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Inserts new row to the table in the form. Provides functionality to add
+     * button.
+     * @param evt event that fired
+     */
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.addRow(new Object[columnNames.length]);
@@ -119,16 +131,30 @@ public abstract class ListView extends javax.swing.JFrame {
         editor.requestFocusInWindow();
     }//GEN-LAST:event_addButtonActionPerformed
 
+    /**
+     * Empty functionality to deleteButton to be overridden in inherited classes 
+     * @param evt event that happened
+     */
     public void deleteButtonActionPerformed(ActionEvent evt) {
     }
     
+    /**
+     * Empty functionality to showButton to be overridden in inherited classes 
+     * @param evt event that happened
+     */
     public void showButtonActionPerformed(ActionEvent evt) {
     }
     
     public void setController(Controller controller) {
         this.controller = controller;
     }
-       
+    
+    /**
+     * Constructs table from models to be displayed in jTable
+     * @param models to be displayed
+     * @param columns number of columns
+     * @return formatted table
+     */
     private Object[][] constructTable(List<Model> models, int columns) {
         Object[][] data;
         if (models == null) {
@@ -141,17 +167,28 @@ public abstract class ListView extends javax.swing.JFrame {
         return data;
     }
     
+    /**
+     * Refreshes data in the form
+     * @param models to be displayed in jTable
+     */
     protected void refreshData(List<Model> models) {
         Object[][] data = constructTable(models, columnNames.length);
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setDataVector(data, columnNames);
     }
     
+    /**
+     * Displays Database error message with messageDialog
+     */
     protected void displaySqlError() {
         JOptionPane.showMessageDialog(this,
                 "Database error! Restart app and try again.");
     }
     
+    /**
+     * Empty functionality to changed row to be overridden in inherited classes
+     * @param row that changed
+     */
     public void rowChangedAction(int row) {
     }
     
@@ -165,6 +202,13 @@ public abstract class ListView extends javax.swing.JFrame {
     protected javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Link to programs main logic
+     */
     protected Controller controller;
+    
+    /**
+     * Column names in jTable
+     */
     protected Object[] columnNames;
 }

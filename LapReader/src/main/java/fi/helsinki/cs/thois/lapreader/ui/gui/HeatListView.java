@@ -17,12 +17,32 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Form displays all heats from a day in list
+ */
 public class HeatListView extends ListView {
     
+    /**
+     * Day that is displayed and connected to the form
+     */
     private TestDay day;
+    
+    /**
+     * Heats in the day
+     */
     private Heat[] heats;
+    
+    /**
+     * File chooser dialog for selecting file to be imported
+     */
     JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
     
+    /**
+     * Initializes and customizes ListView for heats
+     * @param controller links form to the program logic
+     * @param day to be displayed
+     * @throws SQLException if database error occurs
+     */
     public HeatListView(Controller controller, TestDay day) throws SQLException {
         super(controller);
         DefaultTableModel model = new HeatTableModel();
@@ -39,6 +59,10 @@ public class HeatListView extends ListView {
         refreshData();
     }
     
+    /**
+     * Shows a heat in a HeatView
+     * @param heat to be displayed
+     */
     private void showHeat(Heat heat) {
         try {
             HeatView lapListView = new HeatView(controller, heat);
@@ -78,6 +102,10 @@ public class HeatListView extends ListView {
         }
     }
     
+    /**
+     * Refreshes data in the form
+     * @throws SQLException if database error occurs 
+     */
     private void refreshData() throws SQLException {
         heats = controller.getHeats(day).toArray(new Heat[0]);
         super.refreshData(new ArrayList<Model>(Arrays.asList(heats)));
@@ -87,6 +115,11 @@ public class HeatListView extends ListView {
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
     }
     
+    /**
+     * Adds column including best laps in the table
+     * @param model where column will be added
+     * @throws SQLException if database error occurs 
+     */
     private void addBestLaps(DefaultTableModel model) throws SQLException {
         Object[] data = new Object[heats.length];
         for (int i = 0; i < heats.length; i++) {
@@ -96,6 +129,11 @@ public class HeatListView extends ListView {
        model.addColumn("Best lap", data);
     }
     
+    /**
+     * Adds column including average laptimes in the table
+     * @param model where column will be added
+     * @throws SQLException if database error occurs
+     */
     private void addAvgs(DefaultTableModel model) throws SQLException {
         Object[] data = new Object[heats.length];
         for (int i = 0; i < heats.length; i++) {
@@ -104,6 +142,10 @@ public class HeatListView extends ListView {
        model.addColumn("Average", data);
     }
     
+    /**
+     * Displays dialog to select file including laptimes to be imported
+     * @return file that user selected
+     */
     private File selectLapsFile() {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION)
@@ -111,6 +153,11 @@ public class HeatListView extends ListView {
         return null;       
     }
     
+    /**
+     * Adds heat to the database
+     * @param time time of the day when heat was run
+     * @throws SQLException if database error occurs
+     */
     private void addHeat(String time) throws SQLException {
         File file = selectLapsFile();
         if (file == null)
@@ -130,6 +177,11 @@ public class HeatListView extends ListView {
         }
     }
     
+    /**
+     * Modifies time of the heat
+     * @param id index to heat row to be modified
+     * @throws SQLException if database error occurs
+     */
     private void modifyHeat(int id) throws SQLException {
         Heat heat = heats[id];
         try {
