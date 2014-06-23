@@ -2,7 +2,7 @@
 
 Ohjelma on toteutettu käyttäen ORMLite-persistointikirjastoa, joka asetti rajapuitteet toteutustavalle.
 
-![Luokkakaavio](luokkakaavio.png "LapReader -ohjelman luokkakaavio")
+![Luokkakaavio](luokkakaavio2.png "LapReader -ohjelman luokkakaavio")
 
 ##Controller
 Ohjelman perustan muodostaa Controller-luokka, joka pitää sisällään lähes kaiken ohjelman toimnallisuuden. Controller pitää huolta myös tietokantayhteyksistä ja olioiden persistoinnista ORMLiten data access olioiden (DAO) avulla. Jokaisella mallilla on oma daonsa, joka huolehtii kyseisten mallien persistoinnista. Tietokantayhteyksiä on siis auki useita samaan aikaan. Controller hoitaa myös tiedostojen lukemisen.
@@ -23,10 +23,16 @@ Kun parser-muodostaa hyvin yksinkertaisen rajapinnan, niin uusien parsereiden to
 
 ##Käyttöliittymä
 
-TODO
+Käyttöliittymän rungon muodostaa abstrakti ListView-luokka, joka josta muut listanäkymät. DayListView listaa päivät ja vastaavasti HeatListView listaa heatit. Molemmat ikkunat tarjoavat mahdollisuudet mallien hallintaan. Listanäkymä tarvitsi myös tapahtumankuuntelijan, jonka tehtävää hoitaa ListViewActionListener.
+
+Listanäkymä toimii käyttämällä jTable -taulukkoa. Myöhempää taulukon toiminnallisuutta varten tarvitsi jokatapauksessa taulukkomallit malleja varten, joita tarjoaa pakkaus gui.tableModel. Kyseinen pakkaus sisältää taulukossa esitettäviä tietotyyppejä varten TableModel rajapinnan toteuttavat taulukkomallit, jotka periytyvät DefaultTableModel-luokasta. Tällä hetkellä taulukkomallit määrittävät ainoastaan muokattavissa olevat sarakkeet. Lisäksi pakkaus sisältää tapahtumankuuntelijan taulukoita varten.
+
+HeatView tarjoaa näkymän heatin tarkempien tietojen tutkimista varten. Tämän periyttäminen ListViewistä osoittautui hankalaksi, joten se piirrettiin GuiBuilderilla uudestaan.
+
+Käyttöliittymän luonnin ja käynnistämisen hoitaa Gui-luokka, joka on ajettava. Tämä mahdollistaa käyttöliittymän siirtämisen omaan threadiin tulevaisuudessa, joka tarvitaan taustatiedonsiirtoa varten. Kyseinen ominaisuus on siis tarkoitus toteuttaa myöhemmin.
 
 ##Suunnitellut tulevat laajennukset
 
-![Laajennettu luokkakaavio](luokkakaavio__laajennusmahdollisuudet.png "LapReader -ohjelman laajennuste luokkakaavio")
+![Laajennettu luokkakaavio](luokkakaavio_laajennusmahdollisuudet.png "LapReader -ohjelman laajennuste luokkakaavio")
 
 Yllä on esitetty vielä luokkakaavio suunniteltujen laajennuksen kanssa. Testipäivä suoritetaan tietyllä radalla, jota esittä Track-luokka. Lisäksi Heattiin yhdistetään tieto autosta Car-luokan olioiden avulla. Parser pakkaukseen on lisäksi lisätty MyLapsParser mylaps-nettisivuston käyttämää formaattia varten
