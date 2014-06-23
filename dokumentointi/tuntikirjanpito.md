@@ -11,4 +11,6 @@
 * 13.06.2014 2h Parserin modularisointi ja refaktorointia
 * 14.06.2014 5h Aloitettu GUI ja kirjoitettu lisää javadoccia
 * 20.06.2014 6h	GUI edistynyt, rivi- ja mutaatiokattavuutta parannettu testeissä
-
+* 21.06.2014 7h Pääosin käyttöliittymän tekoa sekä hieman lisää toiminnallisuutta
+* 22.06.2014 8h Käyttöliittymän viimestely ja testit kattamaan lisätty toiminnallisuus
+* 23.06.2014 3h Dokumentointia (Javadoc ja kaavioita)

@@ -15,4 +15,4 @@ Lisäoptiona ohjelma voisi tallentaa myös ajohetken säätiedot esim. käyttäm
 * Säätömuutosten tallentaminen tekstimuodossa ajokerran yhteyteen
 * Vanhojen ajokertojen kierrosaikojen selaus
 * Parhaimpien kierrosaikojen näyttäminen
-* Haku säätömuutoksista
+* (optio) Haku säätömuutoksista

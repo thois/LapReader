@@ -39,6 +39,9 @@ public class HeatView extends javax.swing.JFrame {
         jPanel1.setLayout(new BorderLayout());
         jPanel1.add(chartPanel, BorderLayout.NORTH);
         jLabelTrackRecord.setVisible(false);
+        jLabelCar.setVisible(false);
+        jLabelTrack.setVisible(false);
+        jLabelClass.setVisible(false);
     }
     
     /**
@@ -69,9 +72,6 @@ public class HeatView extends javax.swing.JFrame {
         jTextFieldTrackTemp = new javax.swing.JTextField();
         jTextFieldAirTemp = new javax.swing.JTextField();
         jLabelClass = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,14 +126,6 @@ public class HeatView extends javax.swing.JFrame {
         jLabelAirTemp.setText("Air temp:");
 
         jLabelClass.setText("Class: TSP-10");
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,12 +186,12 @@ public class HeatView extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelSetupChanges)
                                 .addGap(8, 8, 8))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelTrackTemp)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,9 +339,6 @@ public class HeatView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTrack;
     private javax.swing.JLabel jLabelTrackRecord;
     private javax.swing.JLabel jLabelTrackTemp;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
